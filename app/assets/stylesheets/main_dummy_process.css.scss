@@ -1,0 +1,18 @@
+// Place all the styles related to the main_dummy_process controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "dummy_mixin.css.scss";
+
+body{
+  @include body_default();
+
+  .header{
+    background-color: #ccc;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial;
+    color: white;
+  }
+}
