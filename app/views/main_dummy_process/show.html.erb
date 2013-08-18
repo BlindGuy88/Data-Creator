@@ -1,10 +1,13 @@
 <div class="options">
 Pick your language :<br>
   <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
+  <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
   <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
   <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
   <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
   <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
+  <%= link_to_function "Ruby", "alert('parse using Ruby')", :class=>"option_language" %>
+  <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
 </div>
 <br>
 <div class="code_structure">
@@ -21,10 +24,36 @@ Pick your language :<br>
   data count : <%= text_field_tag "value",100 %> <br>
   Field
   <div class="field_option">
-  Artist Name : <%= text_field_tag "varchar","varchar" %><%= text_field_tag "value",100 %><%= text_field_tag "value","Singer" %><br>
-  Album : <%= text_field_tag "value","varchar" %><%= text_field_tag "value",100 %><%= text_field_tag "value","Album Name" %><br>
-  Album Year : <%= text_field_tag "value","numeric" %><%= text_field_tag "value",4 %><%= text_field_tag "value","1970 - 2020" %> <br>
-  Songs : <%= text_field_tag "value","numeric" %><%= text_field_tag "value",2 %><%= text_field_tag "value","0-20" %> <br>
+    <!--TODO: never use table, need to be change-->
+  <table>
+    <tr>
+      <td> Field Name </td><td> Field Type </td><td> Field Length </td><td> Field Theme </td>
+    </tr>
+    <tr>
+      <td> Artist Name </td>
+      <td> <%= text_field_tag "varchar","varchar" %> </td>
+      <td> <%= text_field_tag "value",100 %> </td>
+      <td> <%= text_field_tag "value","Singer" %> </td>
+    </tr>
+    <tr>
+      <td> Album Name </td>
+      <td> <%= text_field_tag "varchar","varchar" %> </td>
+      <td> <%= text_field_tag "value",100 %> </td>
+      <td> <%= text_field_tag "value","Song Name" %> </td>
+    </tr>
+    <tr>
+      <td> Album Year </td>
+      <td> <%= text_field_tag "varchar","numeric" %> </td>
+      <td> <%= text_field_tag "value",4 %> </td>
+      <td> <%= text_field_tag "value","1980 - 2020" %> </td>
+    </tr>
+    <tr>
+      <td> Track Count </td>
+      <td> <%= text_field_tag "varchar","numeric" %> </td>
+      <td> <%= text_field_tag "value",3 %> </td>
+      <td> <%= text_field_tag "value","0-99" %> </td>
+    </tr>
+  </table>
   </div>
 </div>
 
@@ -34,8 +63,8 @@ Pick your language :<br>
 <div class="result_generated">
   Data Generated
   <div class="result_option">
-    <%= link_to_function "copy to clipboard", "alert('result copied')" %>
-    <%= link_to_function "download file", "alert('choose your folder')" %>
+    | <%= link_to_function "Copy to clipboard", "alert('result copied')" %> |
+    <%= link_to_function "Download file", "alert('choose your folder')" %> |
   </div>
   <br>
   <div class="clear">

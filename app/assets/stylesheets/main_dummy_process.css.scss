@@ -7,7 +7,6 @@
 body{
   @include body_default();
 
-
   .header{
     background-color: #ccc;
     text-align: center;
@@ -17,15 +16,20 @@ body{
     color: white;
   }
 
+  a{
+    text-decoration: none;
+  }
+
   .options{
     border: solid 0.5px grey;
     margin: 10px;
+    padding: 5px 10px 5px 10px;
 
     .option_language{
-      color: dimgray;
-      margin-top: 20px;
-      margin-right: 20px;
-      margin-left: 20px;
+      color: cornflowerblue;
+      margin-right: 30px;
+      margin-left: 30px;
+
     }
   }
 
@@ -46,6 +50,7 @@ body{
     .field_option{
       padding-left: 50px;
     }
+
   }
 
   .result_generated{
