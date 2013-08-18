@@ -1,2 +1,56 @@
-<h1>MainDummyProcess#show</h1>
-<p>Find me in app/views/main_dummy_process/show.html.erb</p>
+<div class="options">
+Pick your language :<br>
+  <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
+  <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
+  <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
+  <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
+  <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
+</div>
+<br>
+<div class="code_structure">
+    <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
+    <%= text_area_tag :text, nil, rows:10, cols:97  %>
+    <%= button_tag "ok", :onClick => "alert('result show when this click')"  %>
+</div>
+
+<div class="clear"></div>
+<br>
+<br>
+<br>
+<div class="data_option">
+  data count : <%= text_field_tag "value",100 %> <br>
+  Field
+  <div class="field_option">
+  Artist Name : <%= text_field_tag "varchar","varchar" %><%= text_field_tag "value",100 %><%= text_field_tag "value","Singer" %><br>
+  Album : <%= text_field_tag "value","varchar" %><%= text_field_tag "value",100 %><%= text_field_tag "value","Album Name" %><br>
+  Album Year : <%= text_field_tag "value","numeric" %><%= text_field_tag "value",4 %><%= text_field_tag "value","1970 - 2020" %> <br>
+  Songs : <%= text_field_tag "value","numeric" %><%= text_field_tag "value",2 %><%= text_field_tag "value","0-20" %> <br>
+  </div>
+</div>
+
+<br>
+
+
+<div class="result_generated">
+  Data Generated
+  <div class="result_option">
+    <%= link_to_function "copy to clipboard", "alert('result copied')" %>
+    <%= link_to_function "download file", "alert('choose your folder')" %>
+  </div>
+  <br>
+  <div class="clear">
+  <div class="results">
+  exampleClass var1 = new exampleClass ("james morrison","Feeling like a teenager", "1991", "12")<br>
+  exampleClass var2 = new exampleClass ("Faye Wong","Eyes on me", "1997", "7")<br>
+  exampleClass var3 = new exampleClass ("lady gaga","Judas", "2012", "11")<br>
+  exampleClass var4 = new exampleClass ("peter pan","yang terbaik untuk mu", "2000", "12")<br>
+  exampleClass var5 = new exampleClass ("The Blues","Jazzy in the city", "1987", "5")<br>
+  exampleClass var6 = new exampleClass ("Beatles","Yellow submarine", "1978", "14")<br>
+  exampleClass var7 = new exampleClass ("Morgana","Yellow oasis", "1992", "13")<br>
+  exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")<br>
+  exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")<br>
+  </div>
+</div>
+
+<br>
+
