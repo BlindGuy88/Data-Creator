@@ -1,27 +1,29 @@
-<div class="options">
-Pick your language :<br>
-  <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
-  <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
-  <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
-  <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
-  <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
-  <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
-  <%= link_to_function "Ruby", "alert('parse using Ruby')", :class=>"option_language" %>
-  <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
-</div>
-<br>
-<div class="code_structure">
-    <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
-    <%= text_area_tag :text,
-      " Class exampleClass()
-      {
-        string ArtistName;
-        string AlbumName;
-        Int AlbumYear;
-        Int TrackCount;
-      }
-       ", rows:10, cols:97  %>
-    <%= button_tag "ok", :onClick => "alert('result show when this click');$('.result_hidden').show()"  %>
+<div class="top-part">
+    <div class="options">
+    Pick your language :<br>
+      <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
+      <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
+      <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
+      <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
+      <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
+      <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
+      <%= link_to_function "Ruby", "alert('parse using Ruby')", :class=>"option_language" %>
+      <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
+    </div>
+    <br>
+    <div class="code_structure">
+        <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
+        <%= text_area_tag :text,
+          " Class exampleClass()
+          {
+            string ArtistName;
+            string AlbumName;
+            Int AlbumYear;
+            Int TrackCount;
+          }
+           ", rows:10, cols:97  %>
+        <%= button_tag "ok", :onClick => "alert('result show when this click');$('.result_hidden').show()"  %>
+    </div>
 </div>
 
 <div class="clear"></div>
