@@ -1,6 +1,8 @@
 <div class="top-part">
+    <div class='header'>
+      Dummy Data Generator
+    </div>
     <div class="options">
-    Pick your language :<br>
       <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
       <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
       <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
@@ -10,9 +12,12 @@
       <%= link_to_function "Ruby", "alert('parse using Ruby')", :class=>"option_language" %>
       <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
     </div>
-    <br>
+</div>
+<div class="top-part">
     <div class="code_structure">
+       <div>
         <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
+         <div class="clear"></div>
         <%= text_area_tag :text,
           " Class exampleClass()
           {
@@ -22,24 +27,22 @@
             Int TrackCount;
           }
            ", rows:10, cols:97  %>
-        <%= button_tag "ok", :onClick => "alert('result show when this click');$('.result_hidden').show()"  %>
+        </div>
+       <div class="button_container">
+         <%= button_tag "Generate", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+       </div>
     </div>
 </div>
-
 <div class="clear"></div>
-<br>
-<br>
-<br>
-<div class="result_hidden">
+<div class="bottom-part">
+    <div class="result_hidden">
     <div class="data_option">
-      data count : <%= text_field_tag "value",100 %> <br>
-      Field
+      Data Count <%= text_field_tag "value",100 , :class => "data_count" %>
+      <%= link_to_function "Close Option X", "alert('choose your folder')",:class => "close_link" %>
+
       <div class="field_option">
         <!--TODO: never use table, need to be change-->
       <table>
-        <tr>
-          <td> Field Name </td><td> Field Type </td><td> Field Length </td><td> Field Theme </td>
-        </tr>
         <tr>
           <td> Artist Name </td>
           <td> <%= text_field_tag "varchar","varchar" %> </td>
@@ -67,15 +70,12 @@
       </table>
       </div>
     </div>
-
-    <br>
-
+    <div class="clear"></div>
     <div class="result_generated">
-      Data Generated
-      <div class="result_option">
-        | <%= link_to_function "Copy to clipboard", "alert('result copied')" %> |
-        <%= link_to_function "Download file", "alert('choose your folder')" %> |
-      </div>
+      <!--<div class="result_option">-->
+        <!--| <%= link_to_function "Copy to clipboard", "alert('result copied')" %> |-->
+        <!--| <%= link_to_function "Download file", "alert('choose your folder')" %> |-->
+      <!--</div>-->
       <br>
       <div class="clear"> </div>
       <div class="results">
@@ -89,9 +89,14 @@
       exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")<br>
       exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")<br>
       </div>
+      <div class="button_container">
+      <%= button_tag "Copy to Clipboard", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+      <%= button_tag "Download", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_white" %>
+      </div>
     </div>
 </div>
+</div>
 
-    <script type="text/javascript">
-        $(".result_hidden").hide();
+<script type="text/javascript">
+        //$(".result_hidden").hide();
     </script>

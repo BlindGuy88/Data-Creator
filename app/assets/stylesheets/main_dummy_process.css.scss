@@ -4,56 +4,137 @@
 
 @import "dummy_mixin.css.scss";
 
+$width_code_section:80%;
+$default_padding:20px;
+$default_color_text: #AAA;
+$default_button_backgroundcolor:#ccc;
+
 body{
   @include body_default();
-
-  .header{
-    background-color: #ccc;
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    font-family: Arial;
-    color: white;
-  }
-
+  @include button_standard("button_gray", $default_button_backgroundcolor, darken($default_button_backgroundcolor,30%));
+  @include button_standard("button_white", #fff, darken(#fff,30%));
   a{
     text-decoration: none;
   }
 
+  .top-part{
+    background-color: #E9E9E9;
+    border-bottom: 0.5px solid #AAAAAA;
+  }
+
+  .bottom-part{
+    background-color: #FFF;
+
+  }
+
+  .header{
+    color: #000000;
+    display: block;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    height: 20px;
+    padding-top: 15px;
+    text-align: center;
+    width: 100%;
+  }
+
   .options{
-    border: solid 0.5px grey;
-    margin: 10px;
-    padding: 5px 10px 5px 10px;
+    margin: 10px auto;
+    padding: 15px 10px;
+    width: 80%;
+    cursor: default;
+    text-align: center;
 
     .option_language{
-      color: cornflowerblue;
-      margin-right: 30px;
-      margin-left: 30px;
-
+      color: $default_color_text;
+      display: inline-block;
+      font-family: arial;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 5px 30px;
     }
+    .option_language:hover{
+      color: darken($default_color_text,30%);
+      text-decoration: underline;
+    }
+
   }
 
   .code_structure{
-    a,button{
+
+    padding-top: $default_padding;
+    padding-bottom: $default_padding;
+    padding-left: (100% - $width_code_section) / 2;
+    width:$width_code_section;
+    font-weight: bold;
+
+    a{
       float: right;
+      color: $default_color_text;
+
     }
-    button{
-      width: 150px;
-      height: 35px;
-      margin: 10px;
-      display: inline-block;
+    a:hover{
+      color: darken(darkgray,30%);
+    }
+
+    textarea{
+      width: 100%;
+    }
+
+    .button_container{
+      height:27px;
+      button{
+        float: right;
+        }
     }
   }
 
   .data_option{
-    border: solid 0.5px gray;
+
+    padding: $default_padding;
+    font-family: arial;
+    font-weight: bold;
+    color:$default_color_text;
+
     .field_option{
       padding-left: 50px;
-    }
+      padding-top: 20px;
+      border-top: 1px solid black;
 
+      input{
+        width:90%;
+        margin:0px;
+      }
+      table{
+        color:darken($default_color_text,30%);
+        td{
+          padding: 5px 5px;
+        }
+      }
+
+
+    }
+    .data_count
+    {
+      border: medium none;
+      box-shadow: none;
+      font-weight: bold;
+      margin-bottom: 2px;
+      width: 80px;
+    }
+    .close_link{
+      color:$default_color_text;
+      float: right;
+      padding-top: 5px;
+    }
+    .close_link:hover{
+      color:darken($default_color_text,20%);
+    }
   }
 
   .result_generated{
+    padding: $default_padding;
     .result_option{
       float: right;
       display: block;
@@ -61,9 +142,14 @@ body{
     }
     .results{
       display: block;
-      border: solid 0.5px grey;
-      padding: 10px;
+      border: solid 0.5px gray;
+      padding:10px;
     }
+
+    .button_container{
+      padding: 10px 10px;
+    }
+
   }
 
 }
