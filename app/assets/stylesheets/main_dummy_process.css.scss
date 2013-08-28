@@ -82,12 +82,17 @@ body{
       width: 100%;
     }
 
+    .codemirror_container {
+      padding-bottom: 10px;
+    }
+
     .button_container{
       height:27px;
       button{
         float: right;
         }
     }
+
   }
 
   .data_option{

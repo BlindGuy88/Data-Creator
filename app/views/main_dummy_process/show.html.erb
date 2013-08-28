@@ -1,100 +1,105 @@
-<div class="top-part">
-    <div class='header'>
-      Dummy Data Generator
-    </div>
-    <div class="options">
-      <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
-      <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
-      <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
-      <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
-      <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
-      <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
-      <%= link_to_function "Ruby", "alert('parse using Ruby')", :class=>"option_language" %>
-      <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
-    </div>
-</div>
-<div class="top-part">
-    <div class="code_structure">
-       <div>
-        <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
-         <div class="clear"></div>
-        <%= text_area_tag :text,
-          " Class exampleClass()
-          {
-            string ArtistName;
-            string AlbumName;
-            Int AlbumYear;
-            Int TrackCount;
-          }
-           ", rows:10, cols:97  %>
+<div>
+    <div class="top-part" >
+        <div class='header'>
+          Dummy Data Generator
         </div>
-       <div class="button_container">
-         <%= button_tag "Generate", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
-       </div>
+        <div class="options" >
+          <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
+          <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
+          <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
+          <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
+          <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
+          <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
+          <%= link_to_function "Ruby", "window.myCodeMirror.setOption('mode','ruby');alert('a');", :class=>"option_language" %>
+          <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
+        </div>
     </div>
-</div>
-<div class="clear"></div>
-<div class="bottom-part">
-    <div class="result_hidden">
-    <div class="data_option">
-      Data Count <%= text_field_tag "value",100 , :class => "data_count" %>
-      <%= link_to_function "Close Option X", "alert('choose your folder')",:class => "close_link" %>
 
-      <div class="field_option">
-        <!--TODO: never use table, need to be change-->
-      <table>
-        <tr>
-          <td> Artist Name </td>
-          <td> <%= text_field_tag "varchar","varchar" %> </td>
-          <td> <%= text_field_tag "value",100 %> </td>
-          <td> <%= text_field_tag "value","Singer" %> </td>
-        </tr>
-        <tr>
-          <td> Album Name </td>
-          <td> <%= text_field_tag "varchar","varchar" %> </td>
-          <td> <%= text_field_tag "value",100 %> </td>
-          <td> <%= text_field_tag "value","Song Name" %> </td>
-        </tr>
-        <tr>
-          <td> Album Year </td>
-          <td> <%= text_field_tag "varchar","numeric" %> </td>
-          <td> <%= text_field_tag "value",4 %> </td>
-          <td> <%= text_field_tag "value","1980 - 2020" %> </td>
-        </tr>
-        <tr>
-          <td> Track Count </td>
-          <td> <%= text_field_tag "varchar","numeric" %> </td>
-          <td> <%= text_field_tag "value",3 %> </td>
-          <td> <%= text_field_tag "value","0-99" %> </td>
-        </tr>
-      </table>
-      </div>
+    <div class="top-part">
+        <div class="code_structure">
+           <div>
+            <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
+             <div class="clear"></div>
+                <div class="codemirror_container">
+                <%= text_area_tag :text,
+                  " Class exampleClass()
+                  {
+                    string ArtistName;
+                    string AlbumName;
+                    Int AlbumYear;
+                    Int TrackCount;
+                  }
+                   ", rows:10, cols:97, :code_mirror => "C", :id => "mytextarea" %>
+                </div>
+            </div>
+           <div class="button_container">
+             <%= button_tag "Generate", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+           </div>
+        </div>
     </div>
     <div class="clear"></div>
-    <div class="result_generated">
-      <!--<div class="result_option">-->
-        <!--| <%= link_to_function "Copy to clipboard", "alert('result copied')" %> |-->
-        <!--| <%= link_to_function "Download file", "alert('choose your folder')" %> |-->
-      <!--</div>-->
-      <br>
-      <div class="clear"> </div>
-      <div class="results">
-      exampleClass var1 = new exampleClass ("james morrison","Feeling like a teenager", "1991", "12")<br>
-      exampleClass var2 = new exampleClass ("Faye Wong","Eyes on me", "1997", "7")<br>
-      exampleClass var3 = new exampleClass ("lady gaga","Judas", "2012", "11")<br>
-      exampleClass var4 = new exampleClass ("peter pan","yang terbaik untuk mu", "2000", "12")<br>
-      exampleClass var5 = new exampleClass ("The Blues","Jazzy in the city", "1987", "5")<br>
-      exampleClass var6 = new exampleClass ("Beatles","Yellow submarine", "1978", "14")<br>
-      exampleClass var7 = new exampleClass ("Morgana","Yellow oasis", "1992", "13")<br>
-      exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")<br>
-      exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")<br>
-      </div>
-      <div class="button_container">
-      <%= button_tag "Copy to Clipboard", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
-      <%= button_tag "Download", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_white" %>
-      </div>
+    <div class="bottom-part">
+        <div class="result_hidden">
+        <div class="data_option">
+          Data Count <%= text_field_tag "value",100 , :class => "data_count" %>
+          <%= link_to_function "Close Option X", "alert('choose your folder')",:class => "close_link" %>
+
+          <div class="field_option">
+            <!--TODO: never use table, need to be change-->
+          <table>
+            <tr>
+              <td> Artist Name </td>
+              <td> <%= text_field_tag "varchar","varchar" %> </td>
+              <td> <%= text_field_tag "value",100 %> </td>
+              <td> <%= text_field_tag "value","Singer" %> </td>
+            </tr>
+            <tr>
+              <td> Album Name </td>
+              <td> <%= text_field_tag "varchar","varchar" %> </td>
+              <td> <%= text_field_tag "value",100 %> </td>
+              <td> <%= text_field_tag "value","Song Name" %> </td>
+            </tr>
+            <tr>
+              <td> Album Year </td>
+              <td> <%= text_field_tag "varchar","numeric" %> </td>
+              <td> <%= text_field_tag "value",4 %> </td>
+              <td> <%= text_field_tag "value","1980 - 2020" %> </td>
+            </tr>
+            <tr>
+              <td> Track Count </td>
+              <td> <%= text_field_tag "varchar","numeric" %> </td>
+              <td> <%= text_field_tag "value",3 %> </td>
+              <td> <%= text_field_tag "value","0-99" %> </td>
+            </tr>
+          </table>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div class="result_generated">
+          <!--<div class="result_option">-->
+            <!--| <%= link_to_function "Copy to clipboard", "alert('result copied')" %> |-->
+            <!--| <%= link_to_function "Download file", "alert('choose your folder')" %> |-->
+          <!--</div>-->
+          <br>
+          <div class="clear"> </div>
+          <div class="results">
+          exampleClass var1 = new exampleClass ("james morrison","Feeling like a teenager", "1991", "12")<br>
+          exampleClass var2 = new exampleClass ("Faye Wong","Eyes on me", "1997", "7")<br>
+          exampleClass var3 = new exampleClass ("lady gaga","Judas", "2012", "11")<br>
+          exampleClass var4 = new exampleClass ("peter pan","yang terbaik untuk mu", "2000", "12")<br>
+          exampleClass var5 = new exampleClass ("The Blues","Jazzy in the city", "1987", "5")<br>
+          exampleClass var6 = new exampleClass ("Beatles","Yellow submarine", "1978", "14")<br>
+          exampleClass var7 = new exampleClass ("Morgana","Yellow oasis", "1992", "13")<br>
+          exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")<br>
+          exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")<br>
+          </div>
+          <div class="button_container">
+          <%= button_tag "Copy to Clipboard", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+          <%= button_tag "Download", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_white" %>
+          </div>
+        </div>
     </div>
-</div>
+    </div>
 </div>
 
 <script type="text/javascript">

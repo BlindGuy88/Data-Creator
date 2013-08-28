@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require angular
+
 
 //=un require bootstrap-transition
 //=un require bootstrap-affix
@@ -29,4 +31,6 @@
 
 //= require bootstrap-typeahead
 
+
 //= require_tree .
+//= require codemirror
