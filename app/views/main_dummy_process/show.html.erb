@@ -1,22 +1,23 @@
-<div>
-    <div class="top-part" >
+<div ng-app="dummy_ang_module" ng-controller="CodeController">
+    <div class="top-part">
         <div class='header'>
           Dummy Data Generator
         </div>
         <div class="options" >
-          <%= link_to_function "C", "alert('parse using C')", :class=>"option_language" %>
+          <%= link_to_function "C", "window.myCodeMirror.setOption('mode','text/x-csrc');alert('put into C mode');", :class=>"option_language" %>
           <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
-          <%= link_to_function "C++", "alert('parse using C++')", :class=>"option_language" %>
-          <%= link_to_function "C#", "alert('parse using C#')", :class=>"option_language" %>
+          <%= link_to_function "C++", "window.myCodeMirror.setOption('mode','text/x-c++src');alert('put into C++ mode');", :class=>"option_language" %>
+          <%= link_to_function "C#", "window.myCodeMirror.setOption('mode','text/x-csharp');alert('put into C# mode');", :class=>"option_language" %>
           <%= link_to_function "Pascal", "alert('parse using Pascal')", :class=>"option_language" %>
           <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
-          <%= link_to_function "Ruby", "window.myCodeMirror.setOption('mode','ruby');alert('a');", :class=>"option_language" %>
+          <%= link_to_function "Ruby", "window.myCodeMirror.setOption('mode','ruby');alert('put into ruby mode');", :class=>"option_language" %>
           <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
         </div>
     </div>
 
     <div class="top-part">
-        <div class="code_structure">
+        <div class="code_structure" >
+          {{code}}
            <div>
             <%= link_to_function "Create your own class", "alert('pop up your class creator')"  %>
              <div class="clear"></div>
@@ -42,9 +43,18 @@
         <div class="result_hidden">
         <div class="data_option">
           Data Count <%= text_field_tag "value",100 , :class => "data_count" %>
-          <%= link_to_function "Close Option X", "alert('choose your folder')",:class => "close_link" %>
+          <%= link_to_function "Close Option X", "alert('choose your folder')",:class => "close_link","ng-click" => "givebacksomething()",
+          "data-target-url" => "get_field" %>
 
           <div class="field_option">
+            <ul ng-repeat="field in fields">
+              <li>
+                <span>{{field.name}} </span>
+                <span> <%= text_field_tag "varchar","{{field.type}}" %> </span>
+                <span> <%= text_field_tag "value","{{field.length}}" %> </span>
+                <span> <%= text_field_tag "value","{{field.theme}}" %> </span>
+              </li>
+            </ul>
             <!--TODO: never use table, need to be change-->
           <table>
             <tr>
