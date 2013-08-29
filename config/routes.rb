@@ -1,6 +1,7 @@
 DummyDataRuby200::Application.routes.draw do
   get "main_dummy_process/show"
   get "/get_field" => 'main_dummy_process#get_code_field'
+  get "/generate_data" => 'main_dummy_process#generate_data'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

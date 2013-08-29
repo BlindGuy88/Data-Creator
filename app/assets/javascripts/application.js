@@ -21,7 +21,7 @@
 //=un require bootstrap-alert
 //=un require bootstrap-button
 //=un require bootstrap-carousel
-//=un require bootstrap-collapse
+//= require bootstrap-collapse
 //=un require bootstrap-dropdown
 //=un require bootstrap-modal
 //=un require bootstrap-scrollspy
