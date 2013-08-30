@@ -4,15 +4,14 @@
           Dummy Data Generator
         </div>
         <div class="options" >
-          <%= link_to_function "C", "window.myCodeMirror.setOption('mode','text/x-csrc');alert('put into C mode');", :class=>"option_language" %>
-          <%= link_to_function "SQL", "alert('parse using SQL')", :class=>"option_language" %>
-          <%= link_to_function "C++", "window.myCodeMirror.setOption('mode','text/x-c++src');alert('put into C++ mode');", :class=>"option_language" %>
-          <%= link_to_function "C#", "window.myCodeMirror.setOption('mode','text/x-csharp');alert('put into C# mode');", :class=>"option_language" %>
-          <%= link_to_function "Pascal", "alert('parse
-           using Pascal')", :class=>"option_language" %>
-          <%= link_to_function "Java", "alert('parse using Java')", :class=>"option_language" %>
-          <%= link_to_function "Ruby", "window.myCodeMirror.setOption('mode','ruby');alert('put into ruby mode');", :class=>"option_language" %>
-          <%= link_to_function "Python", "alert('parse using Python')", :class=>"option_language" %>
+          <%= link_to "C", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C')"}  %>
+          <%= link_to "SQL", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('SQL')"}  %>
+          <%= link_to "C++", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C++')"}  %>
+          <%= link_to "C#", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C#')"}  %>
+          <%= link_to "Pascal", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Pascal')"}  %>
+          <%= link_to "Java", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Java')"}  %>
+          <%= link_to "Ruby", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Ruby')"}  %>
+          <%= link_to "Python", "", :class=>"option_language" , :data => {"ng-click" => "change_code_type('Python')"} %>
         </div>
     </div>
 
