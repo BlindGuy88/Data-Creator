@@ -7,8 +7,12 @@ class MainDummyProcessController < ApplicationController
   end
 
   def get_code_field
+    # get the code
+    code_language = params[:language]
+    raw_code = params[:data]
     # parse the code
-    array_fields = parse_code()
+    array = parse_code raw_code, code_language
+    array_fields = generate_dummy_field
     respond_to do |format|
       format.json {render :json => {"data" => array_fields}.to_json}
       format.html {render :json => {"data" => array_fields}.to_json}
@@ -25,7 +29,18 @@ class MainDummyProcessController < ApplicationController
     return
   end
 
-  def parse_code
+  def parse_code (code_language, code)
+    case code_language
+      when "C"
+        # call module C to parse this code
+        # or call factory to create parse
+    end
+
+
+
+  end
+
+  def generate_dummy_field
     array_fields = Array.new()
 
     data = DtoFieldsInCode.new()
