@@ -46,10 +46,10 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: DummyDataRuby200_test
+  database: DummyDataRuby200_development
   pool: 5
-  username: DummyDataRuby200
-  password:
+  username: postgres
+  password: Levirath1988
 
 production:
   adapter: postgresql
