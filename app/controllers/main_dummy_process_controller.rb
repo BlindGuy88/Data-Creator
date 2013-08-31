@@ -29,14 +29,36 @@ class MainDummyProcessController < ApplicationController
     return
   end
 
+  def dummy_data
+    parse_code("C#","
+    class PrintModel
+    {
+        public string PrinterName { get; set; }
+        public string PrinterDescription { get; set; }
+        public int NumberOfJobs { get; set; }
+        public int TotalPages { get; set; }
+        public PrintQueue Printer { get; set; }
+
+        public string AddString()
+        {
+            return this.PrinterName + this.PrinterDescription;
+        }
+    }
+    ")
+  end
+
   def parse_code (code_language, code)
     case code_language
-      when "C"
+      when "C#"
+        CSharp.parse(code)
         # call module C to parse this code
         # or call factory to create parse
     end
 
-
+    respond_to do |format|
+      format.json {render :json => {"data" => data}.to_json}
+      format.html {render :json => {"data" => data}.to_json}
+    end
 
   end
 
@@ -48,12 +70,6 @@ class MainDummyProcessController < ApplicationController
     data.type = "Varchar"
     data.length = "100"
     data.theme = "Person Name"
-
-    data2 = DtoFieldsInCode.new()
-    data2.name = "Address"
-    data2.type = "Varchar"
-    data2.length = "100"
-    data2.theme = "Address"
 
     data2 = DtoFieldsInCode.new()
     data2.name = "Address"
