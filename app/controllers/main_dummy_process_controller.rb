@@ -1,9 +1,9 @@
+
 class MainDummyProcessController < ApplicationController
   include CSharpParser
   include DTO
 
   def show
-      put_two_as_return
   end
 
   def get_code_field
@@ -45,20 +45,27 @@ class MainDummyProcessController < ApplicationController
         }
     }
     ")
+    #respond_to do |format|
+    #  format.json {render :json => {"data" => "data"}.to_json}
+    #  format.html {render :json => {"data" => "data"}.to_json}
+    #end
+
   end
 
   def parse_code (code_language, code)
     case code_language
       when "C#"
+        line = DtoLineStructure.new()
+        line.line = "a"
         CSharp.parse(code)
         # call module C to parse this code
         # or call factory to create parse
     end
 
-    respond_to do |format|
-      format.json {render :json => {"data" => data}.to_json}
-      format.html {render :json => {"data" => data}.to_json}
-    end
+    #respond_to do |format|
+    #  format.json {render :json => {"data" => data}.to_json}
+    #  format.html {render :json => {"data" => data}.to_json}
+    #end
 
   end
 
