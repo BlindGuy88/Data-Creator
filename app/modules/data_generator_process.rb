@@ -60,6 +60,8 @@ module DataGeneratorProcess
           result = Faker::Company.name
         when Const::ThemeName::LoremIpsum
           result = Faker::Lorem.sentence
+        when Const::ThemeName::Year
+          result = rand([1980..2013])
         when "random"
           result = "random"
       end

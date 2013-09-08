@@ -5,6 +5,7 @@ module DTO
 
   class DtoLineStructure
     attr_accessor :line, :mapped_line, :holder
+  #  mapped_line << DtoFieldsInCode.new
   end
 
   class DtoGeneratedDataStructure

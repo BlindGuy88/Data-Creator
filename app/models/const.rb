@@ -7,9 +7,11 @@ module Const
     EmailName = "Email Name"
     CompanyName = "Company Name"
     LoremIpsum = "Lorem Ipsum"
-
+    Year = "Year"
+    Month = "Month"
+    Date = "Date"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
-    NumberTheme = [PhoneNumber]
+    NumberTheme = [PhoneNumber, Year]
 
   end
 end

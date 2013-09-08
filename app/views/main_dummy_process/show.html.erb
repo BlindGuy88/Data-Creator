@@ -50,12 +50,13 @@
                 <ul ng-repeat="property in class.properties">
                   <li>
                     <span>{{property.name}} </span>
-                    <span> <%= text_field_tag "varchar","{{property.type}}" %> </span>
-                    <span> <%= text_field_tag "value","{{property.length}}" %> </span>
-                    <span> <%= text_field_tag "value","{{property.theme}}" %> </span>
+                    <span> <%= text_field_tag "varchar",nil ,"ng-model"=>"property.type" %> </span>
+                    <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length"%> </span>
+                    <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.theme"%> </span>
                   </li>
                 </ul>
             </div>
+            <%= button_tag "Generate","ng-click" => "generatedatawiththeme()", :class=>"button_gray", "data-target-url" => "generate_data_with_theme" %>
           </div>
         </div>
         <div class="clear"></div>

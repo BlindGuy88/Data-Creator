@@ -1,6 +1,7 @@
 angular.module("dummy_ang_module",[]).
 controller('CodeController', ["$scope","$http", ($scope, $http)->
   #starting to put properti here
+  $scope.classes = []
   $scope.data_count_number = 20
   $scope.code_language = "C#"
   $scope.raw_code =
@@ -39,7 +40,7 @@ exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")
           for property in properties
             property_name = property.mapped_line.name
             property_type = property.mapped_line.type
-            klass.properties.push({"name":property_name, "type":property_type,"length":20, "theme":"Person"})
+            klass.properties.push({"name":property_name, "type":property_type, "length":20, "theme":"Person"})
           $scope.classes.push(klass)
 
       #call ajax and send the code to server
@@ -60,6 +61,16 @@ exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")
       $scope.dummy_data_for_user = data.data
 #    $http.get(url,{params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}}).success(successresponse)
     $http.get(url,{params:{language:$scope.code_language,data:$scope.raw_code,data_count:$scope.data_count_number}}).success(successresponse)
+    return
+
+  #calling to generate data
+  $scope.generatedatawiththeme = ->
+    url = "generate_data_from_option"
+    successresponse = (data)->
+      $scope.raw_code = data.raw_code
+      $scope.dummy_data_for_user = data.data
+    #    $http.get(url,{params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}}).success(successresponse)
+    $http.get(url,{params:{language:$scope.code_language, classes:$scope.classes, data_count:$scope.data_count_number}}).success(successresponse)
     return
 
   $scope.change_code_type = (code_type)->

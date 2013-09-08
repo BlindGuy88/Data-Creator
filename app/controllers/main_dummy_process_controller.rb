@@ -1,4 +1,3 @@
-
 class MainDummyProcessController < ApplicationController
   include CSharpParser
   include DTO
@@ -39,6 +38,31 @@ class MainDummyProcessController < ApplicationController
       format.html {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
     end
     return
+  end
+
+  def generate_data_from_field_option
+    # prepare the given parameter first
+    klasses_str = params[:classes]
+    klasses = JSON.parse klasses_str
+    data_count = params[:data_count].to_i
+    code_language = params[:language]
+
+    # convert to structured line data
+    structured_line = create_structured_line_from_user_json(klasses)
+
+    # create the data
+    generator = DataGenerator.new
+    generated_data = generator.generate_data structured_line,data_count
+    generated_data_in_language = self.reparse_data code_language,generated_data
+
+    c_sharp = CSharp.new
+    code = c_sharp.reparse_code(structured_line)
+
+    # give response
+    respond_to do |format|
+      format.json {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
+      format.html {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
+    end
   end
 
   def dummy_data
@@ -97,9 +121,33 @@ class MainDummyProcessController < ApplicationController
     end
     return result
   end
-  #def generate_data (array_of_parsed_lines, count)
-  #    data_generator = new data
-  #end
+
+  def create_structured_line_from_user_json(unstructured_line_array_json)
+    # regenerate the holder class
+    klasses = unstructured_line_array_json
+    structured_line = Array.new
+    if not klasses.nil? then
+      klasses.each do |klass|
+        class_structured = DtoLineStructure.new
+        class_structured.mapped_line = DtoFieldsInCode.new
+        class_structured.mapped_line.name = klass["name"]
+        class_structured.mapped_line.type = "Class"
+        class_structured.holder = Array.new
+
+        klass["properties"].each do |property|
+          properties_structured = DtoLineStructure.new
+          properties_structured.mapped_line = DtoFieldsInCode.new
+          properties_structured.mapped_line.name = property["name"]
+          properties_structured.mapped_line.type = property["type"]
+          properties_structured.mapped_line.theme = property["theme"]
+          class_structured.holder.push properties_structured
+        end
+
+        structured_line.push class_structured
+      end
+    end
+    return structured_line
+  end
 
   def generate_dummy_field
     array_fields = Array.new()
