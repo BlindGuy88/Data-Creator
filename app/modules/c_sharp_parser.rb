@@ -2,6 +2,7 @@ module CSharpParser
   class CSharp
     attr_accessor :property_rules, :class_rules
     include DTO
+    include Const
 
     def initialize()
       self.class_rules = Array.new()
@@ -13,6 +14,7 @@ module CSharpParser
 
     end
 
+    #start of parsing code =begin
     def parse(code)
       # starting to cut down here and there
       # split by { ; } first
@@ -22,38 +24,6 @@ module CSharpParser
       # input result to fields array
       return class_and_fields
     end
-
-    def reparse_code(array_structured_lines)
-      result = Array.new
-      array_structured_lines.each do |structured_line|
-        if not structured_line.mapped_line.nil?
-          if structured_line.mapped_line.type == "Class"
-            string_code = create_code(structured_line,0)
-            result.push string_code
-          end
-        end
-      end
-      return result.join("\n")
-    end
-
-    def create_code(class_line,indent_count)
-      property_lines = Array.new
-      class_line.holder.each do |property|
-        line_code = ""
-          case property.mapped_line.type
-            when "String", "string"
-              line_code = "#{" " * (indent_count+2)}Public String #{property.mapped_line.name} { get; set; }"
-            when "Int","int"
-              line_code = "#{" " * (indent_count+2)}Public Int #{property.mapped_line.name} { get; set; }"
-            when "Class"
-              line_code = create_code(property,indent_count+2)
-          end
-        property_lines.push line_code if not line_code.empty?
-      end
-      result = "#{" " * indent_count}Public Class #{class_line.mapped_line.name} {\n#{property_lines.join("\n")}\n} "
-      return result
-    end
-
     def split_by_line(code,level)
       result_array = Array.new()
       end_line_index = code.index ";"
@@ -88,6 +58,7 @@ module CSharpParser
           scenario = :close_block
         end
 
+        #process based on scenario
         case scenario
           when :open_block
             # start to slice the block
@@ -124,34 +95,66 @@ module CSharpParser
       return {:line => result_array, :last_block_index =>last_index}
 
     end
-
     def parse_line(line)
-       result = DtoFieldsInCode.new()
-       #TODO: Create into one big regex, it's much better than many small regex
-       self.property_rules.each do |prop_rule|
-          mapped_line = line.scan prop_rule
-          if mapped_line.any? then
-            result.type = mapped_line[0][0]
-            result.name = mapped_line[0][1]
-            break
-          end
+      result = DtoFieldsInCode.new()
+      #TODO: Create into one big regex, it's much better than few small regex
+      self.property_rules.each do |prop_rule|
+        mapped_line = line.scan prop_rule
+        if mapped_line.any? then
+          result.type = mapped_line[0][0]
+          result.name = mapped_line[0][1]
+          result.theme = Const::ThemeName::StringTheme[rand(Const::ThemeName::StringTheme.length)]
+
+          break
         end
-       self.class_rules.each do |class_rule|
-         mapped_line = line.scan class_rule
-         if mapped_line.any? then
-           result.type = "Class"
-           result.name = mapped_line[0][0]
-         end
-       end
+      end
+      self.class_rules.each do |class_rule|
+        mapped_line = line.scan class_rule
+        if mapped_line.any? then
+          result.type = "Class"
+          result.name = mapped_line[0][0]
+        end
+      end
       return result
     end
-
     def define_type(type)
       if type == ""
 
       end
     end
 
+    # start of reparsing code
+    def reparse_code(array_structured_lines)
+      result = Array.new
+      array_structured_lines.each do |structured_line|
+        if not structured_line.mapped_line.nil?
+          if structured_line.mapped_line.type == "Class"
+            string_code = create_code(structured_line,0)
+            result.push string_code
+          end
+        end
+      end
+      return result.join("\n")
+    end
+    def create_code(class_line,indent_count)
+      property_lines = Array.new
+      class_line.holder.each do |property|
+        line_code = ""
+          case property.mapped_line.type
+            when "String", "string"
+              line_code = "#{" " * (indent_count+2)}Public String #{property.mapped_line.name} { get; set; }"
+            when "Int","int"
+              line_code = "#{" " * (indent_count+2)}Public Int #{property.mapped_line.name} { get; set; }"
+            when "Class"
+              line_code = create_code(property,indent_count+2)
+          end
+        property_lines.push line_code if not line_code.empty?
+      end
+      result = "#{" " * indent_count}Public Class #{class_line.mapped_line.name} {\n#{property_lines.join("\n")}\n} "
+      return result
+    end
+
+    # start to create line of code from generated data
     def reparse_data(generated_data)
       count = 0
       result = Array.new

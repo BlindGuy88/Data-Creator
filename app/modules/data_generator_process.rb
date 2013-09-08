@@ -1,7 +1,9 @@
 module DataGeneratorProcess
 
+  #require 'faker'
   class DataGenerator
     include DTO
+    include Const
 
     def generate_data(array_structured_lines, count)
       result = Array.new
@@ -29,14 +31,38 @@ module DataGeneratorProcess
            end
            mapped_line = properties_line.mapped_line
            if not mapped_line.type.nil? and (mapped_line.type == "String" or mapped_line.type == "string")
-             dummy_data[mapped_line.name.to_s] = "\"string generated data\""
+             dummy_data[mapped_line.name.to_s] = "\"#{self.data_based_on_theme(mapped_line)}\""
            end
            if not mapped_line.type.nil? and (mapped_line.type == "int" or mapped_line.type == "Int")
-             dummy_data[mapped_line.name] = 0
+             dummy_data[mapped_line.name] = Faker::PhoneNumber.phone_number
            end
          end
          result.push(dummy_data)
         end
+      return result
+    end
+
+    def data_based_on_theme(mapped_line)
+      result = nil
+
+      case mapped_line.theme
+        when Const::ThemeName::PersonName
+           result = Faker::Name.name
+        when Const::ThemeName::Address
+          result = Faker::Address.street_address
+        when Const::ThemeName::StreetName
+          result = Faker::Address.street_name
+        when Const::ThemeName::PhoneNumber
+          result = Faker::PhoneNumber.phone_number
+        when Const::ThemeName::EmailName
+          result = Faker::Internet.email
+        when Const::ThemeName::CompanyName
+          result = Faker::Company.name
+        when Const::ThemeName::LoremIpsum
+          result = Faker::Lorem.sentence
+        when "random"
+          result = "random"
+      end
       return result
     end
 
