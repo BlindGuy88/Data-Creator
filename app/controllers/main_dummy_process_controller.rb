@@ -58,14 +58,17 @@ class MainDummyProcessController < ApplicationController
         }
     }
     ")
-    use_code = "PrintModel model = new PrintModel(){PrinterName:"",PrinterDescription:"",NumberOfJobs:0,TotalPages:0}"
+    #use_code = "PrintModel model = new PrintModel(){PrinterName:"",PrinterDescription:"",NumberOfJobs:0,TotalPages:0}"
     generator = DataGenerator.new
     generated_data = generator.generate_data array_of_structured_lines,20
     generated_data_in_language = self.reparse_data code_language,generated_data
 
+    c_sharp = CSharp.new
+    code = c_sharp.reparse_code(array_of_structured_lines)
+
     respond_to do |format|
-      format.json {render :json => {"data" => generated_data_in_language}.to_json}
-      format.html {render :json => {"data" => generated_data_in_language}.to_json}
+      format.json {render :json => {"data" => generated_data_in_language, "code" => code}.to_json}
+      format.html {render :json => {"data" => generated_data_in_language, "code" => code}.to_json}
     end
 
   end
@@ -78,6 +81,7 @@ class MainDummyProcessController < ApplicationController
         # or call factory to create parse
         c_sharp = CSharp.new
         result = c_sharp.parse(code)
+        code = c_sharp.reparse_code(result)
     end
     return result
   end

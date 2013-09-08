@@ -24,14 +24,34 @@ module CSharpParser
     end
 
     def reparse_code(array_structured_lines)
-      result = String.new
-
-      return result
+      result = Array.new
+      array_structured_lines.each do |structured_line|
+        if not structured_line.mapped_line.nil?
+          if structured_line.mapped_line.type == "Class"
+            string_code = create_code(structured_line,0)
+            result.push string_code
+          end
+        end
+      end
+      return result.join("\n")
     end
 
-    def create_code(structured_line)
-
-
+    def create_code(class_line,indent_count)
+      property_lines = Array.new
+      class_line.holder.each do |property|
+        line_code = ""
+          case property.mapped_line.type
+            when "String", "string"
+              line_code = "#{" " * (indent_count+2)}Public String #{property.mapped_line.name} { get; set; }"
+            when "Int","int"
+              line_code = "#{" " * (indent_count+2)}Public Int #{property.mapped_line.name} { get; set; }"
+            when "Class"
+              line_code = create_code(property,indent_count+2)
+          end
+        property_lines.push line_code if not line_code.empty?
+      end
+      result = "#{" " * indent_count}Public Class #{class_line.mapped_line.name} {\n#{property_lines.join("\n")}\n} "
+      return result
     end
 
     def split_by_line(code,level)
