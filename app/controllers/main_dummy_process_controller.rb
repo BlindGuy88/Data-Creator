@@ -2,6 +2,7 @@
 class MainDummyProcessController < ApplicationController
   include CSharpParser
   include DTO
+  include DataGeneratorProcess
 
   def show
   end
@@ -10,27 +11,39 @@ class MainDummyProcessController < ApplicationController
     # get the code
     code_language = params[:language]
     raw_code = params[:data]
+    data_count = params[:data_count]
     # parse the code
-    array = parse_code raw_code, code_language
-    array_fields = generate_dummy_field
+    array_of_structured_lines = self.parse_code code_language,raw_code
+
     respond_to do |format|
-      format.json {render :json => {"data" => array_fields}.to_json}
-      format.html {render :json => {"data" => array_fields}.to_json}
+      format.json {render :json => {"data" => array_of_structured_lines}.to_json}
+      format.html {render :json => {"data" => array_of_structured_lines}.to_json}
     end
   end
 
   def generate_data
+    # get the code
+    code_language = params[:language]
+    raw_code = params[:data]
+    data_count = params[:data_count].to_i
+    # parse the code
+    array_of_structured_lines = self.parse_code code_language,raw_code
+    generator = DataGenerator.new
+    generated_data = generator.generate_data array_of_structured_lines,data_count
+    generated_data_in_language = self.reparse_data code_language,generated_data
+
     # generate the data from the field
     data = generate_dummy_data
     respond_to do |format|
-      format.json {render :json => {"data" => data}.to_json}
-      format.html {render :json => {"data" => data}.to_json}
+      format.json {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
+      format.html {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
     end
     return
   end
 
   def dummy_data
-    parse_code("C#","
+    code_language = "C#"
+    array_of_structured_lines = self.parse_code(code_language,"
     class PrintModel
     {
         public string PrinterName { get; set; }
@@ -45,29 +58,44 @@ class MainDummyProcessController < ApplicationController
         }
     }
     ")
-    #respond_to do |format|
-    #  format.json {render :json => {"data" => "data"}.to_json}
-    #  format.html {render :json => {"data" => "data"}.to_json}
-    #end
+    use_code = "PrintModel model = new PrintModel(){PrinterName:"",PrinterDescription:"",NumberOfJobs:0,TotalPages:0}"
+    generator = DataGenerator.new
+    generated_data = generator.generate_data array_of_structured_lines,20
+    generated_data_in_language = self.reparse_data code_language,generated_data
+
+    respond_to do |format|
+      format.json {render :json => {"data" => generated_data_in_language}.to_json}
+      format.html {render :json => {"data" => generated_data_in_language}.to_json}
+    end
 
   end
 
   def parse_code (code_language, code)
+    result = nil
     case code_language
       when "C#"
-        line = DtoLineStructure.new()
-        line.line = "a"
-        CSharp.parse(code)
         # call module C to parse this code
         # or call factory to create parse
+        c_sharp = CSharp.new
+        result = c_sharp.parse(code)
     end
-
-    #respond_to do |format|
-    #  format.json {render :json => {"data" => data}.to_json}
-    #  format.html {render :json => {"data" => data}.to_json}
-    #end
-
+    return result
   end
+
+  def reparse_data (code_language, generated_data)
+    result = ""
+    case code_language
+      when "C#"
+        # call module C to parse this code
+        # or call factory to create parse
+        c_sharp = CSharp.new
+        result = c_sharp.reparse_data(generated_data)
+    end
+    return result
+  end
+  #def generate_data (array_of_parsed_lines, count)
+  #    data_generator = new data
+  #end
 
   def generate_dummy_field
     array_fields = Array.new()

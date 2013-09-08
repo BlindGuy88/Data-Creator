@@ -1,26 +1,40 @@
-
-
 module CSharpParser
-
   class CSharp
+    attr_accessor :property_rules, :class_rules
     include DTO
-    def self.parse(code)
-      # starting to cut down here and there
-      # split by { ; } first
-      # split by reserved word
-      # create reserved word list
-      holder = DtoLineStructure.new()
-      holder.line = ""
 
-      lines = Array.new
-      lines = split_by_line(code, 0)
+    def initialize()
+      self.class_rules = Array.new()
+      self.class_rules.push(/class\s*(\w*)\s*{[\s*\w*\W*]*}/)
 
-      # input result to fields array
-      array_fields = Array.new()
-      return array_fields
+      self.property_rules = Array.new()
+      self.property_rules.push(/public\s*(\w*)\s*(\w*)\s*{[\w*\s*\W*]*}/)
+
+
     end
 
-    def self.split_by_line(code,level)
+    def parse(code)
+      # starting to cut down here and there
+      # split by { ; } first
+      # and create field for each line
+      class_and_fields = split_by_line(code, 0)[:line]
+
+      # input result to fields array
+      return class_and_fields
+    end
+
+    def reparse_code(array_structured_lines)
+      result = String.new
+
+      return result
+    end
+
+    def create_code(structured_line)
+
+
+    end
+
+    def split_by_line(code,level)
       result_array = Array.new()
       end_line_index = code.index ";"
       open_block_index = code.index "{"
@@ -28,7 +42,7 @@ module CSharpParser
       count = 0
       last_index = 0
 
-      # prepare the result in form of class DtolineStructure
+      # prepare the result in form of class dto_line_structure
       until end_line_index == 0 and open_block_index == 0 and close_block_index == 0 do
         result = DtoLineStructure.new()
         result.holder = Array.new()
@@ -62,9 +76,10 @@ module CSharpParser
 
             length_of_block = line_from_block[:last_block_index]
             line_structure = line_from_block[:line]
-            # put data to holder
 
+            # put data to holder
             result.line = code.slice(0,open_block_index + 1) + "block}"
+            result.mapped_line = self.parse_line(result.line)
             result.holder = line_structure
 
             # get the last index to start again
@@ -74,6 +89,7 @@ module CSharpParser
           when :end_line
             line = code.slice(0,end_line_index+1)
             result.line = line
+            result.mapped_line = self.parse_line(result.line)
             # get the last index to start again
             code = code.slice(end_line_index+1, code.length)
             last_index = last_index + end_line_index + 1
@@ -89,15 +105,49 @@ module CSharpParser
 
     end
 
-    def self.parse_line(line)
-      DtoFieldsInCode
+    def parse_line(line)
+       result = DtoFieldsInCode.new()
+       #TODO: Create into one big regex, it's much better than many small regex
+       self.property_rules.each do |prop_rule|
+          mapped_line = line.scan prop_rule
+          if mapped_line.any? then
+            result.type = mapped_line[0][0]
+            result.name = mapped_line[0][1]
+            break
+          end
+        end
+       self.class_rules.each do |class_rule|
+         mapped_line = line.scan class_rule
+         if mapped_line.any? then
+           result.type = "Class"
+           result.name = mapped_line[0][0]
+         end
+       end
+      return result
+    end
+
+    def define_type(type)
+      if type == ""
+
+      end
+    end
+
+    def reparse_data(generated_data)
+      count = 0
+      result = Array.new
+      generated_data.each do |class_container|
+        class_container.properties.each do |new_dummy_data|
+          count += 1
+          code_data = Array.new
+          new_dummy_data.each do |name,value|
+            code_data.push "#{name}=#{value}"
+          end
+          #create the data
+          result.push "#{class_container.name} model#{count} = new #{class_container.name}(){#{code_data.join ","}}; "
+        end
+      end
+      return result
     end
 
   end
-
-
-  class LineHolder
-    attr_accessor :line, :block
-  end
-
 end

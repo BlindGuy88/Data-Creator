@@ -7,4 +7,14 @@ module DTO
     attr_accessor :line, :mapped_line, :holder
   end
 
+  class DtoGeneratedDataStructure
+    attr_accessor :name, :properties
+  end
+
+  class Object
+    def not_nil?
+      !nil?
+    end
+  end
+
 end
