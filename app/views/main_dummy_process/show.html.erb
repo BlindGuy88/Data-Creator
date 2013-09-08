@@ -22,14 +22,13 @@
              <div class="clear"></div>
                 <div class="codemirror_container">
                 <%= text_area_tag :text,
-                  " Class exampleClass()
-                  {
-                    string ArtistName;
-                    string AlbumName;
-                    Int AlbumYear;
-                    Int TrackCount;
-                  }
-                   ", rows:10, cols:97, :code_mirror => "C", :id => "mytextarea" %>
+                  " public Class exampleClass \n
+                  {\n
+                    public string ArtistName {get; set;}\n
+                    public string AlbumName {get; set; }\n
+                    public int AlbumYear{get;set;}\n
+                    public int TrackCount{get;set;}\n
+                  }", rows:10, cols:97, :code_mirror => "C", :id => "mytextarea", "ng-model" => "raw_code" %>
                 </div>
             </div>
            <div class="button_container">
@@ -41,19 +40,22 @@
     <div class="bottom-part">
         <div class="result_hidden">
         <div class="data_option">
-          Data Count <%= text_field_tag "value",100 , :class => "data_count" %>
+          Data Count <%= text_field_tag "value",100 , :class => "data_count","ng-model" => "data_count_number" %>
           <%= link_to "Close Option X", "",:class => "close_link","ng-click" => "givebacksomething()",
           "data-target-url" => "get_field" %>
 
           <div class="field_option nav-collapse" id="field_option">
-            <ul ng-repeat="field in fields">
-              <li>
-                <span>{{field.name}} </span>
-                <span> <%= text_field_tag "varchar","{{field.type}}" %> </span>
-                <span> <%= text_field_tag "value","{{field.length}}" %> </span>
-                <span> <%= text_field_tag "value","{{field.theme}}" %> </span>
-              </li>
-            </ul>
+            <div ng-repeat="class in classes">
+                <div class="field_class">{{class.name}}</div>
+                <ul ng-repeat="property in class.properties">
+                  <li>
+                    <span>{{property.name}} </span>
+                    <span> <%= text_field_tag "varchar","{{property.type}}" %> </span>
+                    <span> <%= text_field_tag "value","{{property.length}}" %> </span>
+                    <span> <%= text_field_tag "value","{{property.theme}}" %> </span>
+                  </li>
+                </ul>
+            </div>
           </div>
         </div>
         <div class="clear"></div>

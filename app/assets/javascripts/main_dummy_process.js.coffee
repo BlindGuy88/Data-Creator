@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  codemirror.createdirective("test")
+#  codemirror.createdirective("test")
 
 class codemirror
   @createdirective: (name)->
