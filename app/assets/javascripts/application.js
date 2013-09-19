@@ -34,3 +34,4 @@
 
 //= require_tree .
 //= require codemirror
+//= require selecttwo
