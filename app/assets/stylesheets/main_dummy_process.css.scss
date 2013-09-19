@@ -118,13 +118,13 @@ body{
       ul{
         list-style: none;
         margin: 0px;
-        span{
+         li > span{
           width: 23%;
           display: inline-block;
           text-align: center;
           input{
 
-            width: 90%;
+            width: 70%;
             //margin: 5% 0px;
           }
         }
@@ -147,6 +147,15 @@ body{
     .close_link:hover{
       color:darken($default_color_text,20%);
     }
+    .button_container{
+      margin-left:72%;
+    }
+
+    .optionType{
+      padding-bottom: 10px;
+      width: 170px;
+    }
+
   }
 
   .result_generated{

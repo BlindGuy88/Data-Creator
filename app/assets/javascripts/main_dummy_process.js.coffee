@@ -4,14 +4,14 @@
 
 $ ->
 #  codemirror.createdirective("test")
+  $("[ui-select2]").select2();
 
 class codemirror
   @createdirective: (name)->
     $("[code_mirror]").each ->
       window.myCodeMirror = CodeMirror.fromTextArea(mytextarea,
-      {mode:"text/x-csharp",theme:"ambiance", lineNumbers:true, tabSize:2})
-      alert("creating code editor")
-
+        {mode:"text/x-csharp",theme:"ambiance", lineNumbers:true, tabSize:2})
+    alert("creating code editor")
 
 
 

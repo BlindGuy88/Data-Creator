@@ -2,8 +2,10 @@ class MainDummyProcessController < ApplicationController
   include CSharpParser
   include DTO
   include DataGeneratorProcess
+  include Const
 
   def show
+    @theme = Const::Theme::AvailableTheme
   end
 
   def get_code_field

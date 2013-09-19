@@ -32,53 +32,90 @@
                 </div>
             </div>
            <div class="button_container">
-             <%= button_tag "Generate","ng-click" => "generatedata()", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+             <%= button_tag "Generate","ng-click" => "generate_data()", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
            </div>
         </div>
     </div>
     <div class="clear"></div>
     <div class="bottom-part">
         <div class="result_hidden">
-        <div class="data_option">
-          Data Count <%= text_field_tag "value",100 , :class => "data_count","ng-model" => "data_count_number" %>
-          <%= link_to "Close Option X", "",:class => "close_link","ng-click" => "givebacksomething()",
-          "data-target-url" => "get_field" %>
+            <div class="data_option">
+              Data Count <%= text_field_tag "value",100 , :class => "data_count","ng-model" => "data_count_number" %>
+              <%= link_to "Close Option X", "",:class => "close_link","ng-click" => "generate_field_option()",
+              "data-target-url" => "get_field" %>
 
-          <div class="field_option nav-collapse" id="field_option">
-            <div ng-repeat="class in classes">
-                <div class="field_class">{{class.name}}</div>
-                <ul ng-repeat="property in class.properties">
-                  <li>
-                    <span>{{property.name}} </span>
-                    <span> <%= text_field_tag "varchar",nil ,"ng-model"=>"property.type" %> </span>
-                    <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length"%> </span>
-                    <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.theme"%> </span>
-                  </li>
-                </ul>
+              <div class="field_option nav-collapse" id="field_option">
+                <div ng-repeat="class in classes">
+                  <div ng-repeat="class in classes">
+                    <div class="field_class">{{class.name}}</div>
+                    <ul ng-repeat="property in class.properties">
+                      <li>
+                        <span>{{property.name}} {{property.type}} {{property.theme}}</span>
+                        <span>
+
+                          <select ui-select2="{containerCssClass:'optionType',placeholder:'insert type',minimumResultsForSearch:-1}"
+                                  ng-model="property.type"
+                                  ng-change="change_theme(property)"
+                                  ng-required="true">
+                            <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
+                          </select>
+                        </span>
+                        <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length"%> </span>
+                        <span>
+                          <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
+                                  class="optionType"
+                                  ng-model="property.theme"
+                                  ng-required="true">
+                            <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
+                              <option ng-repeat="theme in themes">{{theme}}</option>
+                            </optgroup>
+                          </select>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <%= button_tag "Generate","ng-click" => "generate_data_with_theme()", :class=>"button_gray button_container", "data-target-url" => "generate_data_with_theme" %>
+                </div>
+
+              </div>
             </div>
-            <%= button_tag "Generate","ng-click" => "generatedatawiththeme()", :class=>"button_gray", "data-target-url" => "generate_data_with_theme" %>
-          </div>
-        </div>
-        <div class="clear"></div>
-        <div class="result_generated">
-          <!--<div class="result_option">-->
-            <!--| <%= link_to "Copy to clipboard", "" %> |-->
-            <!--| <%= link_to "Download file", "" %> |-->
-          <!--</div>-->
-          <br>
-          <div class="clear"> </div>
-          <div class="results">
-          <pre>{{dummy_data_for_user}}</pre>
-          </div>
-          <div class="button_container">
-          <%= button_tag "Copy to Clipboard", :onClick => "$('pre').select()", :class=>"button_gray" %>
-          <%= button_tag "Download", :onClick => "this.select()", :class=>"button_white" %>
-          </div>
-        </div>
-    </div>
+            <div class="clear"></div>
+            <div class="result_generated">
+              <!--<div class="result_option">-->
+                <!--| <%= link_to "Copy to clipboard", "" %> |-->
+                <!--| <%= link_to "Download file", "" %> |-->
+              <!--</div>-->
+              <br>
+              <div class="clear"> </div>
+              <div class="results">
+              <pre>{{dummy_data_for_user}}</pre>
+              </div>
+              <div class="button_container">
+              <%= button_tag "Copy to Clipboard", :onClick => "$('pre').select()", :class=>"button_gray" %>
+              <%= button_tag "Download", :onClick => "this.select()", :class=>"button_white" %>
+              </div>
+            </div>
+       </div>
+
+      <!--put the selection here-->
+      <select style="display: none;" optionTheme="" >
+        <% @theme.each do |key,value| %>
+            <optgroup label="<%= key %>">
+              <% value.each do |theme|%>
+                  <option> <%= theme %> </option>
+              <% end %>
+            </optgroup>
+        <%end%>
+      </select>
+
+
+
     </div>
 </div>
 
+
+
+
 <script type="text/javascript">
         //$(".result_hidden").hide();
-    </script>
+</script>

@@ -2,7 +2,7 @@ module Const
   class ThemeName
     PersonName = "Person Name"
     StreetName = "Street Name"
-    Address = "Address"
+    Address = "Person Address"
     PhoneNumber = "Phone Number"
     EmailName = "Email Name"
     CompanyName = "Company Name"
@@ -12,6 +12,19 @@ module Const
     Date = "Date"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
     NumberTheme = [PhoneNumber, Year]
-
   end
+
+  class Theme
+    AvailableTheme =
+        {
+        "Text"=>["Person Name", "Person Address", "Email", "Lorem Ipsum", "Month"],
+        "Number"=>["Phone Number", "Cell Phone","Month","Year", "Random"],
+        "Date Time"=>["Birth Date (w/o Time)","Random", "Birth Date"],
+        "Boolean"=>["True/False"],
+        "int"=>["Person Name"],
+        "string"=>["Person Name"]
+        }
+  end
+
+
 end
