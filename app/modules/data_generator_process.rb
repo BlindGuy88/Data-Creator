@@ -9,7 +9,7 @@ module DataGeneratorProcess
       result = Array.new
       array_structured_lines.each do |structured_line|
           if not structured_line.mapped_line.nil?
-             if structured_line.mapped_line.type == "Class"
+               if structured_line.mapped_line.type == "Class"
                class_structure = DtoGeneratedDataStructure.new
                class_structure.name = structured_line.mapped_line.name
                class_structure.properties = create_data_for_a_class structured_line, count
@@ -30,10 +30,10 @@ module DataGeneratorProcess
              dummy_data = Hash.new
            end
            mapped_line = properties_line.mapped_line
-           if not mapped_line.type.nil? and (mapped_line.type == "String" or mapped_line.type == "string")
+           if not mapped_line.type.nil? and (mapped_line.type == "String" or mapped_line.type == "string" or mapped_line.type == "Text" )
              dummy_data[mapped_line.name.to_s] = "\"#{self.data_based_on_theme(mapped_line)}\""
            end
-           if not mapped_line.type.nil? and (mapped_line.type == "int" or mapped_line.type == "Int")
+           if not mapped_line.type.nil? and (mapped_line.type == "int" or mapped_line.type == "Int" or mapped_line.type == "Number" )
              dummy_data[mapped_line.name] = Faker::PhoneNumber.phone_number
            end
          end
@@ -43,8 +43,6 @@ module DataGeneratorProcess
     end
 
     def data_based_on_theme(mapped_line)
-      result = nil
-
       case mapped_line.theme
         when Const::ThemeName::PersonName
            result = Faker::Name.name

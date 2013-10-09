@@ -10,8 +10,11 @@ module Const
     Year = "Year"
     Month = "Month"
     Date = "Date"
+    BirthDate = "Birth Date"
+    Random = "Random"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
     NumberTheme = [PhoneNumber, Year]
+    DateTheme = [BirthDate, Random]
   end
 
   class Theme
@@ -20,9 +23,7 @@ module Const
         "Text"=>["Person Name", "Person Address", "Email", "Lorem Ipsum", "Month"],
         "Number"=>["Phone Number", "Cell Phone","Month","Year", "Random"],
         "Date Time"=>["Birth Date (w/o Time)","Random", "Birth Date"],
-        "Boolean"=>["True/False"],
-        "int"=>["Person Name"],
-        "string"=>["Person Name"]
+        "Boolean"=>["True/False"]
         }
   end
 
