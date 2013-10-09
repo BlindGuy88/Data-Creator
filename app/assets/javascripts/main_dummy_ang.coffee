@@ -147,7 +147,8 @@ angular.module("dummy_ang_module",['ui.select2'])
               public string AlbumName {get; set; }\r\n
               public int AlbumYear{get;set;}\r\n
               public int TrackCount{get;set;}\r\n
-              public DateTime LastStock{get;set;}\r\n
+              public DateTime ReleaseDate{get;set;}\r\n
+              public bool onSale {get;set;}\r\n
             }"
   rawcode_c_plus =
     "class Time { \r\n

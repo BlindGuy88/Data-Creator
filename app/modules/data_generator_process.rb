@@ -37,11 +37,11 @@ module DataGeneratorProcess
              if (mapped_line.type == "Number" )
                dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
              end
-             if (mapped_line.type == Const::ThemeName::Date )
+             if (mapped_line.type == Const::TypeName::Date )
                dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
              end
-             if (mapped_line.type == "Boolean" )
-               dummy_data[mapped_line.name] = rand(2) == 0
+             if (mapped_line.type == Const::TypeName::Boolean)
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
              end
            end
          end
@@ -52,6 +52,7 @@ module DataGeneratorProcess
 
     def data_based_on_theme(theme)
       case theme
+        # TEXT --------------------------------------------------------
         when Const::ThemeName::PersonName
            result = Faker::Name.name
         when Const::ThemeName::Address
@@ -68,13 +69,21 @@ module DataGeneratorProcess
           result = Faker::Company.name
         when Const::ThemeName::LoremIpsum
           result = Faker::Lorem.sentence
+        # Number --------------------------------------------------------
         when Const::ThemeName::Random
           result = 1980 + rand(2013-1980)
+        # Dste --------------------------------------------------------
         when Const::ThemeName::BirthDate
           result = create_date_between 1988, 2010
         when Const::ThemeName::CCExpired
           result = create_date_between 2010, 2015
-
+        # Boolean --------------------------------------------------------
+        when Const::ThemeName::TrueFalse
+          result = rand(2)==0
+        when Const::ThemeName::True
+          result = true
+        when Const::ThemeName::False
+          result = false
         when "random"
           result = "random"
       end

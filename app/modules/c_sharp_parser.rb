@@ -136,6 +136,10 @@ module CSharpParser
               line_code = "#{" " * (indent_count+2)}public String #{property.mapped_line.name} { get; set; }"
             when "Number","number"
               line_code = "#{" " * (indent_count+2)}public Int #{property.mapped_line.name} { get; set; }"
+            when "DateTime","Date","Time"
+              line_code = "#{" " * (indent_count+2)}public DateTime #{property.mapped_line.name} { get; set; }"
+            when "Boolean"
+              line_code = "#{" " * (indent_count+2)}public Boolean #{property.mapped_line.name} { get; set; }"
             when "Class"
               line_code = create_code(property,indent_count+2)
           end
@@ -154,7 +158,11 @@ module CSharpParser
           count += 1
           code_data = Array.new
           new_dummy_data.each do |name,value|
-            code_data.push "#{name}=#{value}"
+            unless value.is_a?(Time) then
+              code_data.push "#{name}=#{value}"
+            else
+              code_data.push "#{name}= new DateTime(#{value.year},#{value.month},#{value.day},#{value.hour},#{value.min},#{value.sec})"
+            end
           end
           #create the data
           result.push "#{class_container.name} model#{count} = new #{class_container.name}(){#{code_data.join ","}}; "

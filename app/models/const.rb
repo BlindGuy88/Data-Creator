@@ -1,4 +1,10 @@
 module Const
+  class TypeName
+    Date = "Date"
+    Boolean = "Boolean"
+    Text = "Text"
+    Number = "Number"
+  end
   class ThemeName
     PersonName = "Person Name"
     StreetName = "Street Name"
@@ -9,13 +15,16 @@ module Const
     LoremIpsum = "Lorem Ipsum"
     Year = "Year"
     Month = "Month"
-    Date = "Date"
     BirthDate = "Birth Date"
     Random = "Random"
     CCExpired = "Credit Card"
+    TrueFalse = "True/False"
+    True = "True"
+    False = "False"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
     NumberTheme = [PhoneNumber, Year]
     DateTheme = [BirthDate, CCExpired,Random]
+    BooleanTheme = [TrueFalse,True,False]
   end
 
   class Theme
@@ -24,7 +33,7 @@ module Const
         "Text"=>ThemeName::StringTheme,
         "Number"=>ThemeName::NumberTheme,
         "Date"=>ThemeName::DateTheme,
-        "Boolean"=>["True/False"]
+        "Boolean"=>ThemeName::BooleanTheme
         }
   end
 

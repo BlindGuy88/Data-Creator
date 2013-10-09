@@ -8,16 +8,16 @@ module CommonMethod
       class_types = ["class"]
       lower_type = type.downcase
       if number_types.include? lower_type
-        result = "Number"
+        result = Const::TypeName::Number
       end
       if text_types.include? lower_type
-        result = "Text"
+        result = Const::TypeName::Text
       end
       if date_types.include? lower_type
-        result = "Date"
+        result = Const::TypeName::Date
       end
       if boolean_types.include? lower_type
-        result = "Boolean"
+        result = Const::TypeName::Boolean
       end
       if class_types.include? lower_type
         result = "Class"
@@ -27,13 +27,15 @@ module CommonMethod
 
   def create_random_theme(type)
     result = ''
-    case type.downcase
-      when "text"
+    case type
+      when Const::TypeName::Text
         result = Const::ThemeName::StringTheme[rand(Const::ThemeName::StringTheme.length)]
-      when "number"
+      when Const::TypeName::Number
         result = Const::ThemeName::NumberTheme[rand(Const::ThemeName::NumberTheme.length)]
-      when "date"
+      when Const::TypeName::Date
         result = Const::ThemeName::DateTheme[rand(Const::ThemeName::DateTheme.length)]
+      when Const::TypeName::Boolean
+        result = Const::ThemeName::BooleanTheme[rand(Const::ThemeName::BooleanTheme.length)]
 
     end
     return result
