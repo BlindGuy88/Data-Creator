@@ -1,7 +1,13 @@
-angular.module("dummy_ang_module",['ui.select2']).
-controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $timeout)->
+angular.module("dummy_ang_module",['ui.select2'])
+.config(["$routeProvider", ($routeProvider)->
+  $routeProvider.when()
+])
+.controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $timeout)->
+
   # ------------------------starting to put function --------------------------
   $scope.generate_field_option = ->
+    if ($scope.classes.$valid != true)
+      alert "class not valid"
     if (window.collapse == "hidden")
       #preparing the function for success response
       successResponse = (data)->
@@ -15,36 +21,33 @@ controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $time
           for property in properties
             property_name = property.mapped_line.name
             property_type = property.mapped_line.type
+            property_theme = property.mapped_line.theme
+            property_length = property.mapped_line.length
+            # create array for the theme
             theme = {}
             theme[property_type] = $scope.option_theme[property_type]
-            klass.properties.push({"name":property_name, "type":property_type, "length":20, "theme":"Person Name", instance_theme:theme})
+            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme, instance_theme:theme})
           $scope.classes.push(klass)
-
-#          $scope.$apply()
-#          $("[ui-select2]").select2({ containerCss:'selecttwo'});
 
       #call ajax and send the code to server
       targeturl = $("[data-target-url]").first().attr("data-target-url")
 #      $http.get(targeturl, {params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}} ).success(successResponse)
       $http.get(targeturl, {params:{language:$scope.code_language,data:$scope.raw_code,data_count:$scope.data_count_number}} ).success(successResponse)
-      $(target_collapse).show()
-      window.collapse = "shown"
-    else
-      $("#field_option > ul").hide()
-      window.collapse = "hidden"
     return
 
   #calling to generate data
   $scope.generate_data = ->
     url = "generate_data"
+    $scope.generate_field_option()
     successresponse = (data)->
-      $scope.dummy_data_for_user = data.data
+        $scope.dummy_data_for_user = data.data
 #    $http.get(url,{params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}}).success(successresponse)
     $http.get(url,{params:{language:$scope.code_language,data:$scope.raw_code,data_count:$scope.data_count_number}}).success(successresponse)
     return
 
   #calling to generate data with specific theme
   $scope.generate_data_with_theme = ->
+    #TODO: Create a checking if class name and field name not empty
     url = "generate_data_from_option"
     successresponse = (data)->
       $scope.raw_code = data.raw_code
@@ -58,14 +61,13 @@ controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $time
     switch code_type
       when "C"
 #        window.myCodeMirror.setOption('mode','text/x-csrc')
-        alert('put into C mode')
+        $scope.raw_code = rawcode_my_sql
       when "SQL"
-        alert('put into SQL mode')
+        $scope.raw_code = rawcode_sql
       when "C++"
-        alert('put into C++ mode')
+        $scope.raw_code = rawcode_c_plus
       when "C#"
-#        window.myCodeMirror.setOption('mode','text/x-csharp')
-        alert('put into C# mode')
+        $scope.raw_code = rawcode_c_sharp
       when "Pascal"
         alert('put into Pascal mode')
       when "Java"
@@ -106,20 +108,82 @@ controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $time
         text_option = option.text
         $scope.option_theme[text].push(text_option)
 
+  #add field
+  $scope.add_field = (a_class)->
+    the_class = a_class
+    property= {}
+    property.name = ""
+    property.length = ""
+    property.theme = ""
+    property.instance_theme = ""
+    the_class.properties.push(property)
+
+  #remove field
+  $scope.remove_field = (a_class,property)->
+    object_index = a_class.properties.indexOf property
+    count_object = 1
+    a_class.properties.splice object_index, count_object
+
+  #create class for New Class
+  $scope.new_class = ()->
+    #TODO: Create a checking if raw data exist.. if yes give warning, if no go proceed
+    $scope.classes = []
+    klass = new Object()
+    klass.name = ""
+    klass.properties = []
+    $scope.add_field(klass)
+    $scope.add_field(klass)
+    $scope.classes.push(klass)
 
 
   # ------------------------starting to put property --------------------------
   $scope.classes = []
   $scope.data_count_number = 20
   $scope.code_language = "C#"
-  $scope.raw_code =
-    " public Class exampleClass \r\n
-        {\r\n
-          public string ArtistName {get; set;}\r\n
-          public string AlbumName {get; set; }\r\n
-          public int AlbumYear{get;set;}\r\n
-          public int TrackCount{get;set;}\r\n
-        }"
+  rawcode_c_sharp =
+    "public Class exampleClass \r\n
+            {\r\n
+              public string ArtistName {get; set;}\r\n
+              public string AlbumName {get; set; }\r\n
+              public int AlbumYear{get;set;}\r\n
+              public int TrackCount{get;set;}\r\n
+              public DateTime LastStock{get;set;}\r\n
+            }"
+  rawcode_c_plus =
+    "class Time { \r\n
+       private: \r\n
+       string ArtistName;       \r\n
+       int AlbumYear;    \r\n
+       public:         \r\n
+       string AlbumName;   \r\n
+       int TrackCount;     \r\n
+    };"
+
+  rawcode_c =
+    " typedef struct {          \r\n
+      char ArtistName[], AlbumNamae[]     \r\n
+      int width, height;         \r\n
+    } RectangleClass;"
+
+  rawcode_obj_c =
+    "@interface Bar : NSObject {   \r\n
+        Foo *someFoo;              \r\n
+    }"
+
+  rawcode_sql =
+  "CREATE TABLE Persons            \r\n
+    (                              \r\n
+      PersonID int,                \r\n
+      LastName varchar(255),       \r\n
+      FirstName varchar(255),      \r\n
+      Address varchar(255),        \r\n
+      City varchar(255)            \r\n
+    ); "
+
+  rawcode_my_sql =
+    "CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1), birth DATE, death DATE)"
+
+  $scope.raw_code = rawcode_c_sharp
 
   $scope.dummy_data_for_user = 'exampleClass var1 = new exampleClass ("james morrison","Feeling like a teenager", "1991", "12")\n
     exampleClass var2 = new exampleClass ("Faye Wong","Eyes on me", "1997", "7")\n
@@ -130,7 +194,8 @@ controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $time
     exampleClass var7 = new exampleClass ("Morgana","Yellow oasis", "1992", "13")\n
     exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")\n
     exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12")\n'
-  target_collapse = $("#field_option > ul")
+
+  target_collapse = $("#field_option div")
   window.collapse = "hidden"
   $scope.option_theme = {}
   $scope.option_type = []

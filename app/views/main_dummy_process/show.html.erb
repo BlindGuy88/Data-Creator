@@ -18,7 +18,7 @@
     <div class="top-part">
         <div class="code_structure" >
            <div>
-            <%= link_to "Create your own class", ""  %>
+            <%= link_to "Create your own class", "", "ng-click" => "new_class()"%>
              <div class="clear"></div>
                 <div class="codemirror_container">
                 <%= text_area_tag :text,
@@ -37,45 +37,12 @@
         </div>
     </div>
     <div class="clear"></div>
+
     <div class="bottom-part">
         <div class="result_hidden">
             <div class="data_option">
               Data Count <%= text_field_tag "value",100 , :class => "data_count","ng-model" => "data_count_number" %>
-              <%= link_to "Close Option X", "",:class => "close_link","ng-click" => "generate_field_option()",
-              "data-target-url" => "get_field" %>
-
-              <div class="field_option nav-collapse" id="field_option">
-                <div ng-repeat="class in classes">
-                  <div ng-repeat="class in classes">
-                    <div class="field_class">{{class.name}}</div>
-                    <ul ng-repeat="property in class.properties">
-                      <li>
-                        <span>{{property.name}} {{property.type}} {{property.theme}}</span>
-                        <span>
-
-                          <select ui-select2="{containerCssClass:'optionType',placeholder:'insert type',minimumResultsForSearch:-1}"
-                                  ng-model="property.type"
-                                  ng-change="change_theme(property)"
-                                  ng-required="true">
-                            <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
-                          </select>
-                        </span>
-                        <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length"%> </span>
-                        <span>
-                          <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
-                                  class="optionType"
-                                  ng-model="property.theme"
-                                  ng-required="true">
-                            <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
-                              <option ng-repeat="theme in themes">{{theme}}</option>
-                            </optgroup>
-                          </select>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <%= button_tag "Generate","ng-click" => "generate_data_with_theme()", :class=>"button_gray button_container", "data-target-url" => "generate_data_with_theme" %>
-                </div>
+              <ng-include class="field_option nav-collapse" src="'class_editor'"></ng-include>
 
               </div>
             </div>
@@ -107,8 +74,6 @@
             </optgroup>
         <%end%>
       </select>
-
-
 
     </div>
 </div>

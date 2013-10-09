@@ -96,41 +96,11 @@ body{
   }
 
   .data_option{
-
     padding: $default_padding;
     font-family: arial;
     font-weight: bold;
     color:$default_color_text;
 
-
-    .field_option{
-      padding-top: 0px;
-      border-top: 1px solid black;
-      overflow: hidden;
-      .field_class {
-        background-color: #EFEFEF;
-        border-bottom: 1px solid #BEBEBE;
-        color: #A0A0A0;
-        margin: 0 5% 17px;
-        padding: 0 0 5px;
-        width: 100%;
-      }
-      ul{
-        list-style: none;
-        margin: 0px;
-         li > span{
-          width: 23%;
-          display: inline-block;
-          text-align: center;
-          input{
-
-            width: 70%;
-            //margin: 5% 0px;
-          }
-        }
-
-      }
-    }
     .data_count
     {
       border: medium none;
@@ -143,19 +113,11 @@ body{
       color:$default_color_text;
       float: right;
       padding-top: 5px;
+      padding-left: 5px;
     }
     .close_link:hover{
       color:darken($default_color_text,20%);
     }
-    .button_container{
-      margin-left:72%;
-    }
-
-    .optionType{
-      padding-bottom: 10px;
-      width: 170px;
-    }
-
   }
 
   .result_generated{
@@ -175,6 +137,63 @@ body{
       padding: 10px 10px;
     }
 
+  }
+
+}
+
+.field_option{
+
+  padding-top: 0px;
+  border-top: 1px solid black;
+  overflow: hidden;
+  .field_class {
+    background-color: #EFEFEF;
+    border-bottom: 1px solid #BEBEBE;
+    color: #A0A0A0;
+    margin: 0 5% 17px;
+    padding: 5px 0 5px;
+    width: 90%;
+    .class_name{
+      background-color: rgba(0, 0, 0, 0);
+      border: medium none;
+      box-shadow: none;
+      font-weight: bold;
+      margin: 0 50% 0 0;
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  ul{
+    list-style: none;
+    margin: 0px;
+
+    li > span{
+      width: 23%;
+      display: inline-block;
+      text-align: center;
+      input{
+        width: 70%;
+        //margin: 5% 0px;
+      }
+      .field_name{
+        background-color: rgba(0, 0, 0, 0);
+        border: medium none;
+        box-shadow: none;
+        color: #AAAAAA;
+        font-weight: bold;
+        text-align: center;
+      }
+
+    }
+
+  }
+  .button_container{
+    margin-left:72%;
+  }
+  .optionType{
+    padding-bottom: 10px;
+    width: 170px;
   }
 
 }

@@ -1,0 +1,49 @@
+<div class="field_option nav-collapse" id="field_option" data-target-url="get_field">
+     <!--ng-app="class_editor_module" ng-controller="ClassEditor" ng-init="init()">-->
+  <div ng-repeat="class in classes">
+    <div class="field_class">
+      <%= text_field_tag "value",nil ,"ng-model"=>"class.name", :class=>"class_name",
+                         :placeholder => "put class name here","ng-required" => "class.name != ''" %>
+      <%= link_to "Add Field", "", "ng-click" => "add_field(class)" %></div>
+
+      <ul ng-repeat="property in class.properties">
+        <li><!--<li> ng-class="{box: true, ola:property!=null}" class="omg"-->
+          <span><%= text_field_tag "value",nil ,"ng-model"=>"property.name",
+                                   :class=>"field_name",
+                                   :placeholder => "put field name",
+                                   "ng-required" => "property.name!=''"%></span>
+          <span>
+              <select ui-select2="{containerCssClass:'optionType',placeholder:'insert type',minimumResultsForSearch:-1}"
+                      ng-model="property.type"
+                      ng-change="change_theme(property)">
+                <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
+              </select>
+          </span>
+          <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length","placeholder"=>"default"%> </span>
+          <span>
+              <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
+                      class="optionType"
+                      ng-model="property.theme">
+                <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
+                  <option ng-repeat="theme in themes">{{theme}}</option>
+                </optgroup>
+              </select>
+          </span>
+          <%= link_to "X","", "ng_click" => "remove_field(class,property)" %>
+        </li>
+      </ul>
+    <%= button_tag "Generate","ng-click" => "generate_data_with_theme()", :class=>"button_gray button_container", "data-target-url" => "generate_data_with_theme" %>
+  </div>
+
+  <!--put the selection here-->
+  <select style="display: none;" optionTheme="" >
+    <% @theme.each do |key,value| %>
+        <optgroup label="<%= key %>">
+          <% value.each do |theme|%>
+              <option> <%= theme %> </option>
+          <% end %>
+        </optgroup>
+    <%end%>
+  </select>
+
+</div>
