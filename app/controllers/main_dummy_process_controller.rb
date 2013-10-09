@@ -1,70 +1,13 @@
 class MainDummyProcessController < ApplicationController
   include CSharpParser
+  include SQLParser
   include DTO
   include DataGeneratorProcess
   include Const
 
+  # ------------------------------ Controller View --------------------------------
   def show
     @theme = Const::Theme::AvailableTheme
-  end
-
-  def get_code_field
-    # get the code
-    code_language = params[:language]
-    raw_code = params[:data]
-    data_count = params[:data_count]
-    # parse the code
-    array_of_structured_lines = self.parse_code code_language,raw_code
-
-    respond_to do |format|
-      format.json {render :json => {"data" => array_of_structured_lines}.to_json}
-      format.html {render :json => {"data" => array_of_structured_lines}.to_json}
-    end
-  end
-
-  def generate_data
-    # get the code
-    code_language = params[:language]
-    raw_code = params[:data]
-    data_count = params[:data_count].to_i
-    # parse the code
-    array_of_structured_lines = self.parse_code code_language,raw_code
-    generator = DataGenerator.new
-    generated_data = generator.generate_data array_of_structured_lines,data_count
-    generated_data_in_language = self.reparse_data code_language,generated_data
-
-    # generate the data from the field
-    data = generate_dummy_data
-    respond_to do |format|
-      format.json {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
-      format.html {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
-    end
-    return
-  end
-
-  def generate_data_from_field_option
-    # prepare the given parameter first
-    klasses_str = params[:classes]
-    klasses = JSON.parse klasses_str
-    data_count = params[:data_count].to_i
-    code_language = params[:language]
-
-    # convert to structured line data
-    structured_line = create_structured_line_from_user_json(klasses)
-
-    # create the data
-    generator = DataGenerator.new
-    generated_data = generator.generate_data structured_line,data_count
-    generated_data_in_language = self.reparse_data code_language,generated_data
-
-    c_sharp = CSharp.new
-    code = c_sharp.reparse_code(structured_line)
-
-    # give response
-    respond_to do |format|
-      format.json {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
-      format.html {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
-    end
   end
 
   def dummy_data
@@ -99,31 +42,106 @@ class MainDummyProcessController < ApplicationController
 
   end
 
+  def class_editor
+    @theme = Const::Theme::AvailableTheme
+    render layout:false
+  end
+
+  # ------------------------------ services        -------------------------------
+
+  def get_code_field
+    # get the code
+    code_language = params[:language]
+    raw_code = params[:data]
+    data_count = params[:data_count]
+    # parse the code
+    array_of_structured_lines = self.parse_code code_language,raw_code
+
+    respond_to do |format|
+      format.json {render :json => {"data" => array_of_structured_lines}.to_json}
+      format.html {render :json => {"data" => array_of_structured_lines}.to_json}
+    end
+  end
+
+  def generate_data
+    # get the code
+    code_language = params[:language]
+    raw_code = params[:data]
+    data_count = params[:data_count].to_i
+    # parse the code
+    array_of_structured_lines = self.parse_code code_language,raw_code
+    # create the data
+    generator = DataGenerator.new
+    generated_data = generator.generate_data array_of_structured_lines,data_count
+    generated_data_in_language = self.put_data_into_code code_language,generated_data
+    # send the data
+    respond_to do |format|
+      format.json {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
+      format.html {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
+    end
+    return
+  end
+
+  def generate_data_from_field_option
+    # prepare the given parameter first
+    klasses_str = params[:classes]
+    klasses = JSON.parse klasses_str
+    data_count = params[:data_count].to_i
+    code_language = params[:language]
+    # convert to structured line data
+    structured_line = create_structured_line_from_user_json(klasses)
+    # create the data
+    generator = DataGenerator.new
+    generated_data = generator.generate_data structured_line,data_count
+    generated_data_in_language = self.put_data_into_code code_language,generated_data
+    # reparse the structure to put into the code field
+    code = create_code_from_structure_line code_language, structured_line
+    # give response
+    respond_to do |format|
+      format.json {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
+      format.html {render :json => {"raw_code" => code,"data" => generated_data_in_language.join("\n")}.to_json}
+    end
+  end
+  # create from raw_code -> structured line
   def parse_code (code_language, code)
     result = nil
     case code_language
       when "C#"
-        # call module C to parse this code
-        # or call factory to create parse
-        c_sharp = CSharp.new
-        result = c_sharp.parse(code)
-        code = c_sharp.reparse_code(result)
+        parser = CSharp.new
+      when "SQL"
+        parser = SQL.new
     end
+    result = parser.parse(code)
     return result
   end
 
-  def reparse_data (code_language, generated_data)
+  # create from data_structure -> code_contain_data
+  def create_code_from_structure_line (code_language, data_structure)
+    result = nil
+    case code_language
+      when "C#"
+        parser = CSharp.new
+      when "SQL"
+        parser = SQL.new
+    end
+    result = parser.reparse_code(data_structure)
+    return result
+  end
+
+  # create from data_structure -> raw_code
+  def put_data_into_code (code_language, generated_data)
     result = ""
     case code_language
       when "C#"
-        # call module C to parse this code
-        # or call factory to create parse
-        c_sharp = CSharp.new
-        result = c_sharp.reparse_data(generated_data)
+        parser = CSharp.new
+      when "SQL"
+        parser = SQL.new
     end
+    result = parser.reparse_data(generated_data)
     return result
   end
 
+  # create structured line from user field
   def create_structured_line_from_user_json(unstructured_line_array_json)
     # regenerate the holder class
     klasses = unstructured_line_array_json
@@ -142,6 +160,7 @@ class MainDummyProcessController < ApplicationController
           properties_structured.mapped_line.name = property["name"]
           properties_structured.mapped_line.type = property["type"]
           properties_structured.mapped_line.theme = property["theme"]
+          properties_structured.mapped_line.length = property["length"]
           class_structured.holder.push properties_structured
         end
 
@@ -169,19 +188,6 @@ class MainDummyProcessController < ApplicationController
     array_fields.push(data)
     array_fields.push(data2)
     return array_fields
-  end
-
-  def generate_dummy_data
-    ' Create Data From Back end
-    exampleClass var1 = new exampleClass ("james morrison","Feeling like a teenager", "1991", "12")
-    exampleClass var2 = new exampleClass ("Faye Wong","Eyes on me", "1997", "7")
-    exampleClass var3 = new exampleClass ("lady gaga","Judas", "2012", "11")
-    exampleClass var4 = new exampleClass ("peter pan","yang terbaik untuk mu", "2000", "12")
-    exampleClass var5 = new exampleClass ("The Blues","Jazzy in the city", "1987", "5")
-    exampleClass var6 = new exampleClass ("Beatles","Yellow submarine", "1978", "14")
-    exampleClass var7 = new exampleClass ("Morgana","Yellow oasis", "1992", "13")
-    exampleClass var8 = new exampleClass ("Sing in the Rain","To The City", "1988", "9")
-    exampleClass var9 = new exampleClass ("Lion king","Hakuna matata", "1991", "12") '
   end
 
 end
