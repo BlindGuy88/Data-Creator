@@ -12,17 +12,18 @@ module Const
     Date = "Date"
     BirthDate = "Birth Date"
     Random = "Random"
+    CCExpired = "Credit Card"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
     NumberTheme = [PhoneNumber, Year]
-    DateTheme = [BirthDate, Random]
+    DateTheme = [BirthDate, CCExpired,Random]
   end
 
   class Theme
     AvailableTheme =
         {
-        "Text"=>["Person Name", "Person Address", "Email", "Lorem Ipsum", "Month"],
-        "Number"=>["Phone Number", "Cell Phone","Month","Year", "Random"],
-        "Date Time"=>["Birth Date (w/o Time)","Random", "Birth Date"],
+        "Text"=>ThemeName::StringTheme,
+        "Number"=>ThemeName::NumberTheme,
+        "Date"=>ThemeName::DateTheme,
         "Boolean"=>["True/False"]
         }
   end

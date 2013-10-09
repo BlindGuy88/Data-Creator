@@ -30,11 +30,19 @@ module DataGeneratorProcess
              dummy_data = Hash.new
            end
            mapped_line = properties_line.mapped_line
-           if not mapped_line.type.nil? and (mapped_line.type == "String" or mapped_line.type == "string" or mapped_line.type == "Text" )
-             dummy_data[mapped_line.name.to_s] = "\"#{self.data_based_on_theme(mapped_line)}\""
-           end
-           if not mapped_line.type.nil? and (mapped_line.type == "int" or mapped_line.type == "Int" or mapped_line.type == "Number" )
-             dummy_data[mapped_line.name] = Faker::PhoneNumber.phone_number
+           unless mapped_line.type.nil? then
+             if (mapped_line.type == "Text" )
+               dummy_data[mapped_line.name] = "\"#{self.data_based_on_theme(mapped_line.theme)}\""
+             end
+             if (mapped_line.type == "Number" )
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
+             end
+             if (mapped_line.type == Const::ThemeName::Date )
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
+             end
+             if (mapped_line.type == "Boolean" )
+               dummy_data[mapped_line.name] = rand(2) == 0
+             end
            end
          end
          result.push(dummy_data)
@@ -42,8 +50,8 @@ module DataGeneratorProcess
       return result
     end
 
-    def data_based_on_theme(mapped_line)
-      case mapped_line.theme
+    def data_based_on_theme(theme)
+      case theme
         when Const::ThemeName::PersonName
            result = Faker::Name.name
         when Const::ThemeName::Address
@@ -52,18 +60,33 @@ module DataGeneratorProcess
           result = Faker::Address.street_name
         when Const::ThemeName::PhoneNumber
           result = Faker::PhoneNumber.phone_number
+        when Const::ThemeName::Year
+          result = 1980 + rand(2013-1980)
         when Const::ThemeName::EmailName
           result = Faker::Internet.email
         when Const::ThemeName::CompanyName
           result = Faker::Company.name
         when Const::ThemeName::LoremIpsum
           result = Faker::Lorem.sentence
-        when Const::ThemeName::Year
-          result = rand([1980..2013])
+        when Const::ThemeName::Random
+          result = 1980 + rand(2013-1980)
+        when Const::ThemeName::BirthDate
+          result = create_date_between 1988, 2010
+        when Const::ThemeName::CCExpired
+          result = create_date_between 2010, 2015
+
         when "random"
           result = "random"
       end
       return result
+    end
+
+    def create_date_between(start_year, end_year)
+      start_year_epoch = (Time.new start_year).to_f
+      end_year_epoch = (Time.new end_year).to_f
+      max = [start_year_epoch, end_year_epoch].max
+      min = [start_year_epoch, end_year_epoch].min
+      return Time.at(min + rand(max - min))
     end
 
   end

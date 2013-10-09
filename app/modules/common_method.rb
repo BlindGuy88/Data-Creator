@@ -17,7 +17,7 @@ module CommonMethod
         result = "Date"
       end
       if boolean_types.include? lower_type
-        result = "Bool"
+        result = "Boolean"
       end
       if class_types.include? lower_type
         result = "Class"
@@ -33,7 +33,8 @@ module CommonMethod
       when "number"
         result = Const::ThemeName::NumberTheme[rand(Const::ThemeName::NumberTheme.length)]
       when "date"
-        result = Const::ThemeName::NumberTheme[rand(Const::ThemeName::NumberTheme.length)]
+        result = Const::ThemeName::DateTheme[rand(Const::ThemeName::DateTheme.length)]
+
     end
     return result
   end
