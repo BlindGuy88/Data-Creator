@@ -32,12 +32,12 @@ class MainDummyProcessController < ApplicationController
     generated_data = generator.generate_data array_of_structured_lines,20
     generated_data_in_language = self.reparse_data code_language,generated_data
 
-    c_sharp = CSharp.new
-    code = c_sharp.reparse_code(array_of_structured_lines)
+    #c_sharp = CSharp.new
+    #code = c_sharp.reparse_code(array_of_structured_lines)
 
     respond_to do |format|
-      format.json {render :json => {"data" => generated_data_in_language, "code" => code}.to_json}
-      format.html {render :json => {"data" => generated_data_in_language, "code" => code}.to_json}
+      format.json {render :json => {"data" => generated_data_in_language, "field_option" => array_of_structured_lines}.to_json}
+      format.json {render :json => {"data" => generated_data_in_language, "field_option" => array_of_structured_lines}.to_json}
     end
 
   end

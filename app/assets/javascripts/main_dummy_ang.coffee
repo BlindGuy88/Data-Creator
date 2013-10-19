@@ -38,9 +38,25 @@ angular.module("dummy_ang_module",['ui.select2'])
   #calling to generate data
   $scope.generate_data = ->
     url = "generate_data"
-    $scope.generate_field_option()
     successresponse = (data)->
         $scope.dummy_data_for_user = data.data
+        $scope.classes = []
+        #starting to put the data into the fields
+        for classes in data["field_option"]
+          klass = new Object()
+          klass.name = classes.mapped_line.name
+          klass.properties = []
+          properties = classes.holder
+          for property in properties
+            property_name = property.mapped_line.name
+            property_type = property.mapped_line.type
+            property_theme = property.mapped_line.theme
+            property_length = property.mapped_line.length
+            # create array for the theme
+            theme = {}
+            theme[property_type] = $scope.option_theme[property_type]
+            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme, instance_theme:theme})
+          $scope.classes.push(klass)
 #    $http.get(url,{params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}}).success(successresponse)
     $http.get(url,{params:{language:$scope.code_language,data:$scope.raw_code,data_count:$scope.data_count_number}}).success(successresponse)
     return
