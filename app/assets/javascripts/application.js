@@ -18,7 +18,7 @@
 
 //=un require bootstrap-transition
 //=un require bootstrap-affix
-//=un require bootstrap-alert
+//= require bootstrap-alert
 //=un require bootstrap-button
 //=un require bootstrap-carousel
 //= require bootstrap-collapse

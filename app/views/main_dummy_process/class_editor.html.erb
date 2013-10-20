@@ -19,7 +19,7 @@
                 <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
               </select>
           </span>
-          <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length","placeholder"=>"default"%> </span>
+          <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"default", :disabled => "" %> </span>
           <span>
               <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
                       class="optionType"

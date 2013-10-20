@@ -76,8 +76,8 @@ class MainDummyProcessController < ApplicationController
     generated_data_in_language = self.put_data_into_code code_language,generated_data
     # send the data
     respond_to do |format|
-      format.json {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
-      format.html {render :json => {"data" => generated_data_in_language.join("\n")}.to_json}
+      format.json {render :json => {"data" => generated_data_in_language.join("\n"), "field_option" => array_of_structured_lines}.to_json}
+      format.html {render :json => {"data" => generated_data_in_language.join("\n"), "field_option" => array_of_structured_lines}.to_json}
     end
     return
   end

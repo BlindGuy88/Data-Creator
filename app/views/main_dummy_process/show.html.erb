@@ -4,14 +4,14 @@
           Dummy Data Generator
         </div>
         <div class="options" >
-          <%= link_to "C", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C')"}  %>
+          <!--<%= link_to "C", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C')"}  %>-->
           <%= link_to "SQL", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('SQL')"}  %>
-          <%= link_to "C++", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C++')"}  %>
+          <!--<%= link_to "C++", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C++')"}  %>-->
           <%= link_to "C#", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('C#')"}  %>
-          <%= link_to "Pascal", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Pascal')"}  %>
-          <%= link_to "Java", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Java')"}  %>
-          <%= link_to "Ruby", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Ruby')"}  %>
-          <%= link_to "Python", "", :class=>"option_language" , :data => {"ng-click" => "change_code_type('Python')"} %>
+          <!--<%= link_to "Pascal", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Pascal')"}  %>-->
+          <!--<%= link_to "Java", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Java')"}  %>-->
+          <!--<%= link_to "Ruby", "", :class=>"option_language", :data => {"ng-click" => "change_code_type('Ruby')"}  %>-->
+          <!--<%= link_to "Python", "", :class=>"option_language" , :data => {"ng-click" => "change_code_type('Python')"} %>-->
         </div>
     </div>
 
@@ -32,7 +32,7 @@
                 </div>
             </div>
            <div class="button_container">
-             <%= button_tag "Generate","ng-click" => "generate_data()", :onClick => "alert('result show when this click');$('.result_hidden').show()", :class=>"button_gray" %>
+             <%= button_tag "Generate","ng-click" => "generate_data()", :onClick => "$('.result_hidden').show()", :class=>"button_gray" %>
            </div>
         </div>
     </div>
@@ -58,11 +58,17 @@
               <pre>{{dummy_data_for_user}}</pre>
               </div>
               <div class="button_container">
-              <%= button_tag "Copy to Clipboard", :onClick => "$('pre').select()", :class=>"button_gray" %>
-              <%= button_tag "Download", :onClick => "this.select()", :class=>"button_white" %>
+              <%= button_tag "Copy to Clipboard",:id=> "copyToClipboard",  :onClick => "$('pre').select()",
+                             :class=>"button_gray","data-clipboard-target"=>"Copy Me!" %>
+              <!--<%= button_tag  "Download", :onClick => "this.select()", :class=>"button_white" %>-->
               </div>
             </div>
+       <div class="alert alert-info blue-alert" id="copyToClipboardInfo">
+         <h4> Your clipboard updated </h4>
        </div>
+       </div>
+
+
 
       <!--put the selection here-->
       <select style="display: none;" optionTheme="" >
@@ -77,9 +83,6 @@
 
     </div>
 </div>
-
-
-
 
 <script type="text/javascript">
         //$(".result_hidden").hide();

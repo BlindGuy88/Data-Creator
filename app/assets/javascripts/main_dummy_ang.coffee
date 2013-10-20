@@ -218,5 +218,19 @@ angular.module("dummy_ang_module",['ui.select2'])
   $scope.option_type = []
   $scope.populate_option_theme()
 
+  #initializing the zero clipboard
+  clip = new ZeroClipboard $("#copyToClipboard"), {moviePath: "/assets/ZeroClipboard.swf"}
+  $("#copyToClipboardInfo").hide()
+
+  clip.on 'complete', (client, args) ->
+    if $scope.delay? then clearTimeout($scope.delay)
+    $("#copyToClipboardInfo").fadeIn()
+    $scope.delay = setTimeout( ->
+      $("#copyToClipboardInfo").fadeOut()
+    , 2000)
+
+  clip.on 'dataRequested', (client, args) ->
+    client.setText($scope.dummy_data_for_user)
+
   return
 ])

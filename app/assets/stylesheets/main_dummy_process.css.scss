@@ -139,6 +139,13 @@ body{
 
   }
 
+  .blue-alert{
+    left: 0;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+  }
 }
 
 .field_option{
@@ -195,5 +202,7 @@ body{
     padding-bottom: 10px;
     width: 170px;
   }
+
+
 
 }
