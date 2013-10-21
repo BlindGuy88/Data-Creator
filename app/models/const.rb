@@ -19,10 +19,11 @@ module Const
     Random = "Random"
     CCExpired = "Credit Card"
     TrueFalse = "True/False"
+    Increment = "Increment"
     True = "True"
     False = "False"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
-    NumberTheme = [PhoneNumber, Year]
+    NumberTheme = [PhoneNumber, Year, Increment]
     DateTheme = [BirthDate, CCExpired,Random]
     BooleanTheme = [TrueFalse,True,False]
   end

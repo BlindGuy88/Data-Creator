@@ -32,16 +32,16 @@ module DataGeneratorProcess
            mapped_line = properties_line.mapped_line
            unless mapped_line.type.nil? then
              if (mapped_line.type == "Text" )
-               dummy_data[mapped_line.name] = "\"#{self.data_based_on_theme(mapped_line.theme)}\""
+               dummy_data[mapped_line.name] = "\"#{self.data_based_on_theme(mapped_line.theme, number)}\""
              end
              if (mapped_line.type == "Number" )
-               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme, number
              end
              if (mapped_line.type == Const::TypeName::Date )
-               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme, number
              end
              if (mapped_line.type == Const::TypeName::Boolean)
-               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme
+               dummy_data[mapped_line.name] = data_based_on_theme mapped_line.theme, number
              end
            end
          end
@@ -50,7 +50,7 @@ module DataGeneratorProcess
       return result
     end
 
-    def data_based_on_theme(theme)
+    def data_based_on_theme(theme, data_count)
       case theme
         # TEXT --------------------------------------------------------
         when Const::ThemeName::PersonName
@@ -72,6 +72,8 @@ module DataGeneratorProcess
         # Number --------------------------------------------------------
         when Const::ThemeName::Random
           result = 1980 + rand(2013-1980)
+        when Const::ThemeName::Increment
+          result = data_count
         # Dste --------------------------------------------------------
         when Const::ThemeName::BirthDate
           result = create_date_between 1988, 2010

@@ -1,7 +1,7 @@
 module CommonMethod
     def put_to_common_type(type)
       result = ""
-      number_types = ["int","integer","double","float"]
+      number_types = ["int","integer","double","float","decimal","shortint","long","longint","real"]
       text_types = ["string","varchar"]
       date_types = ["date","datetime"]
       boolean_types = ["boolean","bool"]

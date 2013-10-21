@@ -102,13 +102,14 @@ body{
     font-weight: bold;
     color:$default_color_text;
 
-    .data_count
-    {
-      border: medium none;
+    .data_count{
       box-shadow: none;
       font-weight: bold;
       margin-bottom: 2px;
-      width: 80px;
+      border: 0.2px solid #DDDDDD;
+      text-align: center;
+      text-decoration: underline;
+      width: 40px;
     }
     .close_link{
       color:$default_color_text;
