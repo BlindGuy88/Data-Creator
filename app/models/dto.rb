@@ -9,7 +9,7 @@ module DTO
   end
 
   class DtoGeneratedDataStructure
-    attr_accessor :name, :properties, :theme
+    attr_accessor :name, :properties, :theme, :length
   end
 
   class Object

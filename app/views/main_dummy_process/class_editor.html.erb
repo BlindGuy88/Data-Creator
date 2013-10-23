@@ -19,7 +19,24 @@
                 <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
               </select>
           </span>
-          <span> <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"default", :disabled => "" %> </span>
+          <span ng-switch on="property.type">
+            <span ng-switch-when="Text" ng-switch on="property.theme">
+                <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"1-20", "ng-switch-when"=>"Lorem Ipsum"  %>
+                <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>""  %>
+            </span>
+            <span ng-switch-when="Number" ng-switch on="property.theme">
+              <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"0", "ng-switch-when"=>"Increment" %>
+              <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"1-100", "ng-switch-when"=>"Random" %>
+              <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>""  %>
+            </span>
+            <span ng-switch-when="Date" ng-switch on="property.theme">
+              <span ng-switch-default="">
+                <%= text_field_tag "value",nil ,"ng-model"=>"property.date1",:class=>"field_date_length" ,:placeholder=>"12/02/03" %>
+                <%= text_field_tag "value",nil ,"ng-model"=>"property.date2",:class=>"field_date_length" ,:placeholder=>"12/02/13" %>
+              </span>
+            </span>
+            <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>"" %>
+          </span>
           <span>
               <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
                       class="optionType"

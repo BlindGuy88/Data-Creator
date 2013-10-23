@@ -162,6 +162,7 @@ body{
     margin: 0 5% 17px;
     padding: 5px 0 5px;
     width: 90%;
+    text-align: center;
     .class_name{
       background-color: rgba(0, 0, 0, 0);
       border: medium none;
@@ -192,6 +193,11 @@ body{
         color: #AAAAAA;
         font-weight: bold;
         text-align: center;
+      }
+
+      .field_date_length{
+        width:30%;
+        font-size: 12px
       }
 
     }
