@@ -23,8 +23,8 @@ module Const
     True = "True"
     False = "False"
     StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
-    NumberTheme = [PhoneNumber, Year, Increment]
-    DateTheme = [BirthDate, CCExpired,Random]
+    NumberTheme = [PhoneNumber, Increment, Random]
+    DateTheme = [BirthDate, CCExpired]
     BooleanTheme = [TrueFalse,True,False]
   end
 
