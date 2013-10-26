@@ -26,7 +26,7 @@
 //= require bootstrap-modal
 //= un require bootstrap-scrollspy
 //= un require bootstrap-tab
-//= un require bootstrap-tooltip
+//= require bootstrap-tooltip
 //= require bootstrap-popover
 
 //= require bootstrap-typeahead
