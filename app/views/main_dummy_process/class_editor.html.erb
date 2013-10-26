@@ -31,8 +31,20 @@
             </span>
             <span ng-switch-when="Date" ng-switch on="property.theme">
               <span ng-switch-default="">
-                <%= text_field_tag "value",nil ,"ng-model"=>"property.date1",:class=>"field_date_length" ,:placeholder=>"12/02/03" %>
-                <%= text_field_tag "value",nil ,"ng-model"=>"property.date2",:class=>"field_date_length" ,:placeholder=>"12/02/13" %>
+                <span class="input-append" datetime-picker="">
+                    <%= text_field_tag 'value',nil ,'ng-model'=>'property.length', :placeholder=>'12/02/03','data-format'=>'MM/dd/yyyy HH:mm:ss PP' %>
+                   <span class='add-on'>
+                      <i data-time-icon='icon-time' data-date-icon='icon-calendar'>
+                      </i>
+                   </span>
+                </span>
+                <span class="input-append" datetime-picker="">
+                  <%= text_field_tag 'value',nil ,'ng-model'=>'property.length', :placeholder=>'12/02/03','data-format'=>'MM/dd/yyyy HH:mm:ss PP' %>
+                  <span class='add-on'>
+                      <i data-time-icon='icon-time' data-date-icon='icon-calendar'>
+                      </i>
+                   </span>
+                </span>
               </span>
             </span>
             <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>"" %>

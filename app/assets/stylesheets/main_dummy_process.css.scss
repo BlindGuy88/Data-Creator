@@ -182,10 +182,12 @@ body{
       width: 23%;
       display: inline-block;
       text-align: center;
+
       input{
         width: 70%;
         //margin: 5% 0px;
       }
+
       .field_name{
         background-color: rgba(0, 0, 0, 0);
         border: medium none;
@@ -198,6 +200,12 @@ body{
       .field_date_length{
         width:30%;
         font-size: 12px
+      }
+
+      .input-append{
+        margin-right: 30px;
+        padding: 0;
+        width: 20%;
       }
 
     }

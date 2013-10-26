@@ -12,4 +12,5 @@
  *= require_tree .
  *= require codemirror
  *= require select2
+ *= require bootstrap_datetimepicker
  */

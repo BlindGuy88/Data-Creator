@@ -16,18 +16,18 @@
 //= require angular
 
 
-//=un require bootstrap-transition
-//=un require bootstrap-affix
+//= require bootstrap-transition
+//= un require bootstrap-affix
 //= require bootstrap-alert
-//=un require bootstrap-button
-//=un require bootstrap-carousel
+//= require bootstrap-button
+//= un require bootstrap-carousel
 //= require bootstrap-collapse
-//=un require bootstrap-dropdown
-//=un require bootstrap-modal
-//=un require bootstrap-scrollspy
-//=un require bootstrap-tab
-//=un require bootstrap-tooltip
-//=un require bootstrap-popover
+//= un require bootstrap-dropdown
+//= require bootstrap-modal
+//= un require bootstrap-scrollspy
+//= un require bootstrap-tab
+//= un require bootstrap-tooltip
+//= require bootstrap-popover
 
 //= require bootstrap-typeahead
 

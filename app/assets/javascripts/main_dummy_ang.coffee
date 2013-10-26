@@ -2,6 +2,16 @@ angular.module("dummy_ang_module",['ui.select2'])
 .config(["$routeProvider", ($routeProvider)->
   $routeProvider.when()
 ])
+.directive('datetimePicker', ->
+    return result =
+      link : (scope, element, attr)->
+        element.datetimepicker(
+          language:'en',
+          orientation:'left',
+          pick12HourFormat:true
+        )
+      , template: ""
+  )
 .controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $timeout)->
 
   # ------------------------starting to put function --------------------------
@@ -105,7 +115,7 @@ angular.module("dummy_ang_module",['ui.select2'])
     #change the value to become the first value
     #watch the property, so if there any changes... it can be responsive
 
-    if (property.instance_theme[property.type].length > 0)
+    if (not property.instance_theme? && property.instance_theme[property.type].length > 0)
       property.theme = ""
       $timeout( ->
         property.theme = property.instance_theme[property.type][0]
