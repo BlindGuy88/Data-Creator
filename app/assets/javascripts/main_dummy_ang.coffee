@@ -3,14 +3,37 @@ angular.module("dummy_ang_module",['ui.select2'])
   $routeProvider.when()
 ])
 .directive('datetimePicker', ->
+    today = new Date();
     return result =
+      restrict: "A",
+      replace:true,
+#      template: " <span>
+#      <input type='text'
+#      placeholder='#{today.getDate()}/#{today.getMonth()+1}/#{today.getFullYear()}'
+#      datetime-pickervalue
+#      data-format='dd/MM/yyyy HH:mm:ss PP'>
+#        <span class='add-on'>
+#          <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
+#        </span>
+#      </span>",
       link : (scope, element, attr)->
+        input = element.find('input')
+        index = attr.datetimePicker
+
         element.datetimepicker(
           language:'en',
           orientation:'left',
           pick12HourFormat:true
         )
-      , template: ""
+        element.on('changeDate', (e) ->
+            scope.$apply(read)
+        )
+        element.bind('blur keyup change', ->
+            scope.$apply(read)
+        )
+        read = ->
+         scope.property.dateLength = [] unless scope.property.dateLength?
+         scope.property.dateLength[index] = input.val()
   )
 .controller('CodeController', ["$scope","$http","$timeout", ($scope, $http, $timeout)->
 

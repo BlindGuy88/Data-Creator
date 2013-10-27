@@ -160,7 +160,15 @@ class MainDummyProcessController < ApplicationController
           properties_structured.mapped_line.name = property["name"]
           properties_structured.mapped_line.type = property["type"]
           properties_structured.mapped_line.theme = property["theme"]
-          properties_structured.mapped_line.length = property["length"]
+           properties_structured.mapped_line.length = property["length"]
+
+          unless property["dateLength"].nil?
+            properties_structured.mapped_line.length = []
+            property["dateLength"].each do |string_date|
+              converted_date = DateTime.strptime string_date, '%d/%m/%Y %I:%M:%S %p'
+              properties_structured.mapped_line.length.push converted_date
+            end
+          end
           class_structured.holder.push properties_structured
         end
 

@@ -31,16 +31,26 @@
             </span>
             <span ng-switch-when="Date" ng-switch on="property.theme">
               <span ng-switch-default="">
-                <span class="input-append" datetime-picker="">
-                    <%= text_field_tag 'value',nil ,'ng-model'=>'property.length', :placeholder=>'12/02/03','data-format'=>'MM/dd/yyyy HH:mm:ss PP' %>
+                <span class="input-append" datetime-picker="0">
+                    <%= text_field_tag 'value',nil ,
+                                       'ng-model'=>'property.dateLength[0]',
+                                       :placeholder=>'12/02/03',
+                                       'data-format'=>'dd/MM/yyyy HH:mm:ss PP',
+                                       'ng-change' => "change_length(property)",
+                                       "datetime-pickervalue" => ""%>
                    <span class='add-on'>
                       <i data-time-icon='icon-time' data-date-icon='icon-calendar'>
                       </i>
                    </span>
                 </span>
-                <span class="input-append" datetime-picker="">
-                  <%= text_field_tag 'value',nil ,'ng-model'=>'property.length', :placeholder=>'12/02/03','data-format'=>'MM/dd/yyyy HH:mm:ss PP' %>
-                  <span class='add-on'>
+                <span class="input-append" datetime-picker="1">
+                  <%= text_field_tag 'value',nil ,
+                                     'ng-model'=>'property.dateLength[1]',
+                                     :placeholder=>'12/02/03',
+                                     'data-format'=>'dd/MM/yyyy HH:mm:ss PP',
+                                     'ng-change' => "change_length(property)",
+                                     "datetime-pickervalue" => ""%>
+                   <span class='add-on'>
                       <i data-time-icon='icon-time' data-date-icon='icon-calendar'>
                       </i>
                    </span>

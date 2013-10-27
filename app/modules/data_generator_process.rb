@@ -36,11 +36,15 @@ module DataGeneratorProcess
            dummy_data = Hash.new
          end
 
-         #prepare for inContextLength
+         #if exist use that one, if not exist start to create one
          if (in_context_length.keys.include? mapped_line.length)
            active_length = in_context_length[mapped_line.length]
          else
-           active_length = parse_number_length mapped_line.length
+           if (mapped_line.type == Const::TypeName::Date )
+             active_length = parse_date_length mapped_line.length
+           else
+             active_length = parse_number_length mapped_line.length
+           end
          end
 
          unless mapped_line.type.nil? then
@@ -101,9 +105,23 @@ module DataGeneratorProcess
           result = calculated_number
         # Dste --------------------------------------------------------
         when Const::ThemeName::BirthDate
-          result = create_date_between 1988, 2010
+          if length.length > 0
+            lower_bound = length[0]
+            top_bound = length[1]
+          else
+            lower_bound = DateTime.new(1988)
+            top_bound = DateTime.new(1988)
+          end
+          result = create_date_between lower_bound, top_bound
         when Const::ThemeName::CCExpired
-          result = create_date_between 2010, 2015
+          if length.length > 0
+            lower_bound = length[0]
+            top_bound = length[1]
+          else
+            lower_bound = DateTime.new(2010)
+            top_bound = DateTime.new(2015)
+          end
+          result = create_date_between lower_bound, top_bound
         # Boolean --------------------------------------------------------
         when Const::ThemeName::TrueFalse
           result = rand(2)==0
@@ -138,13 +156,38 @@ module DataGeneratorProcess
       return result
     end
 
+    def parse_date_length(the_length)
+      result = Array.new
+      unless the_length.nil?
+        # if only one field filled
+        if the_length.length == 1
+          unless the_length[0].nil? then active_date = the_length[0] else active_date = the_length[1] end
+          result[0]=active_date
+          result[1]=active_date
+        end
+        # if both field filled put it in order
+        if the_length.length == 2
+          if the_length[0] > the_length[1]
+            min_date = the_length[1]
+            max_date = the_length[0]
+          else
+            min_date = the_length[0]
+            max_date = the_length[1]
+          end
+          result[0]=min_date
+          result[1]=max_date
+        end
+      end
+      return result
+    end
+
     def random_number_from_array_number(array_of_number)
 
     end
 
     def create_date_between(start_year, end_year)
-      start_year_epoch = (Time.new start_year).to_f
-      end_year_epoch = (Time.new end_year).to_f
+      start_year_epoch = start_year.to_f
+      end_year_epoch = end_year.to_f
       max = [start_year_epoch, end_year_epoch].max
       min = [start_year_epoch, end_year_epoch].min
       return Time.at(min + rand(max - min))
