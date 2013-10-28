@@ -19,7 +19,16 @@
                 <option ng-repeat="option in option_type" value="{{option}}">{{option}}</option>
               </select>
           </span>
-          <span ng-switch on="property.type">
+          <span>
+              <select ui-select2="{containerCssClass:'optionType optionTheme',placeholder:'insert theme',minimumResultsForSearch:-1}"
+                      class="optionType"
+                      ng-model="property.theme">
+                <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
+                  <option ng-repeat="theme in themes">{{theme}}</option>
+                </optgroup>
+              </select>
+          </span>
+          <span ng-switch on="property.type" class="optionLength">
             <span ng-switch-when="Text" ng-switch on="property.theme">
                 <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"1-20", "ng-switch-when"=>"Lorem Ipsum"  %>
                 <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>""  %>
@@ -29,6 +38,8 @@
               <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"1-100", "ng-switch-when"=>"Random" %>
               <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>""  %>
             </span>
+
+
             <span ng-switch-when="Date" ng-switch on="property.theme">
               <span ng-switch-default="">
                 <span class="input-append" datetime-picker="0">
@@ -58,15 +69,6 @@
               </span>
             </span>
             <%= text_field_tag "value",nil ,"ng-model"=>"property.length",:placeholder=>"", :disabled =>"", "ng-switch-default"=>"" %>
-          </span>
-          <span>
-              <select ui-select2="{containerCssClass:'optionType',placeholder:'insert theme',minimumResultsForSearch:-1}"
-                      class="optionType"
-                      ng-model="property.theme">
-                <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
-                  <option ng-repeat="theme in themes">{{theme}}</option>
-                </optgroup>
-              </select>
           </span>
           <%= link_to "X","", "ng_click" => "remove_field(class,property)" %>
         </li>

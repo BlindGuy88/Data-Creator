@@ -90,6 +90,8 @@ module DataGeneratorProcess
             else random_number = 1 + rand(20)
           end
           result = Faker::Lorem.sentence(random_number)
+        when Const::ThemeName::GUID
+          result = SecureRandom.uuid
         # Number --------------------------------------------------------
         when Const::ThemeName::Random
           if length.length > 0

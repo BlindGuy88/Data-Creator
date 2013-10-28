@@ -22,7 +22,8 @@ module Const
     Increment = "Increment"
     True = "True"
     False = "False"
-    StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum]
+    GUID = "GUID"
+    StringTheme = [PersonName, StreetName, Address, EmailName, CompanyName, LoremIpsum, GUID]
     NumberTheme = [PhoneNumber, Increment, Random]
     DateTheme = [BirthDate, CCExpired]
     BooleanTheme = [TrueFalse,True,False]

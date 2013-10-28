@@ -154,8 +154,9 @@ module CSharpParser
       count = 0
       result = Array.new
       generated_data.each do |class_container|
+        result.push "#{class_container.name}[] result = new #{class_container.name}[#{class_container.properties.length}];"
         class_container.properties.each do |new_dummy_data|
-          count += 1
+
           code_data = Array.new
           new_dummy_data.each do |name,value|
             unless value.is_a?(Time) then
@@ -165,7 +166,9 @@ module CSharpParser
             end
           end
           #create the data
-          result.push "#{class_container.name} model#{count} = new #{class_container.name}(){#{code_data.join ","}}; "
+          result.push "#{class_container.name} model#{count} = new #{class_container.name}(){#{code_data.join ","}};"
+          result.push "result[#{count}] = model#{count};"
+          count += 1
         end
       end
       return result
