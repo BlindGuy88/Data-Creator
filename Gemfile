@@ -48,6 +48,9 @@ end
 
 group :production do
   gem 'rails_12factor'
+  platforms :ruby do # linux
+    gem 'unicorn'
+  end
 end
 
 # Use ActiveModel has_secure_password
