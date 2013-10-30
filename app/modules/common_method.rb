@@ -3,7 +3,7 @@ module CommonMethod
       result = ""
       number_types = ["int","integer","double","float","decimal",
                       "shortint","long","longint","real","number"]
-      text_types = ["string","varchar","varchar2"]
+      text_types = ["string","varchar","varchar2","char","character"]
       date_types = ["date","datetime","timestamp"]
       boolean_types = ["boolean","bool"]
       class_types = ["class"]

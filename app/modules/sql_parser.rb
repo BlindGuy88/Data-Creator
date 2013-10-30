@@ -80,19 +80,19 @@ module SQLParser
         line_code = ""
         case property.mapped_line.type
           when "text", "Text"
-            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} Varchar#{ if property.mapped_line.length.nil? then "(#{255})" else "(#{property.mapped_line.length})" end }"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} VARCHAR#{ if property.mapped_line.length.nil? then "(#{255})" else "(#{property.mapped_line.length})" end }"
           when "Number","number"
-            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INTEGER"
           when "Date","date"
-            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} TIMESTAMP"
           when "Boolean","boolean"
-            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} BOOLEAN"
           when "Class"
             line_code = create_code(property,indent_count+2)
         end
         property_lines.push line_code if not line_code.empty?
       end
-      result = "#{" " * indent_count}CREATE TABLE #{class_line.mapped_line.name} (\n#{property_lines.join("\n")}\n);"
+      result = "#{" " * indent_count}CREATE TABLE #{class_line.mapped_line.name} (\n#{property_lines.join(",\n")}\n);"
       return result
     end
 
@@ -108,11 +108,14 @@ module SQLParser
           value_array = Array.new
           new_dummy_data.each do |name,value|
             unless already_filled then prop_array.push name end
+            if value.is_a? Time or !! value == value then
+              value = "\"#{value.to_s}\""
+            end
             value_array.push value
           end
           already_filled = true
           #create the data
-          result.push "INSERT INTO #{class_container.name}(#{prop_array.join ","}) VALUES(#{value_array.join ","}) "
+          result.push "INSERT INTO #{class_container.name}(#{prop_array.join ","}) VALUES(#{value_array.join ","}); "
 
         end
       end
