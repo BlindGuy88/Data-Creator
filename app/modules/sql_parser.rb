@@ -8,10 +8,12 @@ module SQLParser
     def initialize()
 
       self.class_rules = Array.new
-      self.class_rules.push /CREATE\sTABLE\s+(\w+|["]\w+["])\s*[(]([\s\S\w\W]*)[)]/i
+      self.class_rules.push /CREATE\sTABLE\s+([\w"]*[.]{1})*(?<name>\w+|["](\w+\s*)*["])\s*[(](?<block>[\s\S\w\W]*)[)]/i
+      #CREATE\sTABLE\s+([\w"]*[.]{1})*(?<name>\w+|["](\w+\s*)*["])\s*[(](?<block>[\s\S\w\W]*)[)]
 
       self.property_rules = Array.new
-      self.property_rules.push (/\s*(\w*)\s*(\w*)([(]([\w]*)[)])?\s*[",",\s*\z]/)
+      self.property_rules.push (/\s*(?<name>\w+|["](\w+\s*)*["])\s*(?<type>\w*)([(](?<varchar>[\w]*)[)])?(\w*\s*)*([,]{1}|(\z?))+/)
+      #\s*(?<name>["]*\w*["]*)\s*(?<type>\w*)([(](?<varchar>[\w]*)[)])?\s*[",",\s*\z]?
     end
 
     #start of parsing sql * i don't think we need to break this to lines, just put it directly to holder *
@@ -41,15 +43,18 @@ module SQLParser
       result = Array.new
       fields = line.scan property_rules[0]
       fields.each do |field|
+        forbidden_word = ["constraint","primary","references"]
+        if (not field[0].nil? and  field[0] != "" and !forbidden_word.include?(field[0].downcase) and field[1] != "") then
           result_field = DtoLineStructure.new
           result_field.line = "#{field[0]} #{field[1]}"
-          fieldMapped = DtoFieldsInCode.new
-          fieldMapped.name = field[0]
-          fieldMapped.type = put_to_common_type field[1]
-          fieldMapped.theme = create_random_theme fieldMapped.type
-          fieldMapped.length = (field[3] || 0)
-          result_field.mapped_line = fieldMapped
+          field_mapped = DtoFieldsInCode.new
+          field_mapped.name = field[0]
+          field_mapped.type = put_to_common_type field[1]
+          field_mapped.theme = create_random_theme field_mapped.type
+          field_mapped.length = (field[2]) unless field[2].nil?
+          result_field.mapped_line = field_mapped
           result.push result_field
+        end
       end
       return result
     end
@@ -75,8 +80,12 @@ module SQLParser
         line_code = ""
         case property.mapped_line.type
           when "text", "Text"
-            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} Varchar#{ if property.mapped_line.length.nil? then "(#{property.mapped_line.length})" else "(#{255})" end }"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} Varchar#{ if property.mapped_line.length.nil? then "(#{255})" else "(#{property.mapped_line.length})" end }"
           when "Number","number"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
+          when "Date","date"
+            line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
+          when "Boolean","boolean"
             line_code = "#{" " * (indent_count+2)} #{property.mapped_line.name} INT"
           when "Class"
             line_code = create_code(property,indent_count+2)

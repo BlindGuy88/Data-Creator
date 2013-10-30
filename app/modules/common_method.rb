@@ -1,9 +1,10 @@
 module CommonMethod
     def put_to_common_type(type)
       result = ""
-      number_types = ["int","integer","double","float","decimal","shortint","long","longint","real"]
-      text_types = ["string","varchar"]
-      date_types = ["date","datetime"]
+      number_types = ["int","integer","double","float","decimal",
+                      "shortint","long","longint","real","number"]
+      text_types = ["string","varchar","varchar2"]
+      date_types = ["date","datetime","timestamp"]
       boolean_types = ["boolean","bool"]
       class_types = ["class"]
       lower_type = type.downcase
