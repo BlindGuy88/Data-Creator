@@ -8,11 +8,11 @@ module SQLParser
     def initialize()
 
       self.class_rules = Array.new
-      self.class_rules.push /CREATE\sTABLE\s+([\w"]*[.]{1})*(?<name>\w+|["](\w+\s*)*["])\s*[(](?<block>[\s\S\w\W]*)[)]/i
+      self.class_rules.push /CREATE\sTABLE\s+([\[\]\w"]*[.]{1})*(?<name>\w+|[\["](\w+\s*)*[\]"])\s*[(](?<block>[\s\S\w\W]*)[)]/i
       #CREATE\sTABLE\s+([\w"]*[.]{1})*(?<name>\w+|["](\w+\s*)*["])\s*[(](?<block>[\s\S\w\W]*)[)]
 
       self.property_rules = Array.new
-      self.property_rules.push (/\s*(?<name>\w+|["](\w+\s*)*["])\s*(?<type>\w*)([(](?<varchar>[\w]*)[)])?(\w*\s*)*([,]{1}|(\z?))+/)
+      self.property_rules.push (/\s*(?<name>\w+|[\["](\w+\s*)*[\]"])\s*[\[]?(?<type>\w*)[\]]?([(](?<varchar>[\w]*)[)])?(\w*\s*)*([,]{1}|(\z?))+/)
       #\s*(?<name>["]*\w*["]*)\s*(?<type>\w*)([(](?<varchar>[\w]*)[)])?\s*[",",\s*\z]?
     end
 
