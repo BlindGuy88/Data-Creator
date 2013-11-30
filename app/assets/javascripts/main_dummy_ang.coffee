@@ -59,7 +59,7 @@ angular.module("dummy_ang_module",['ui.select2'])
             # create array for the theme
             theme = {}
             theme[property_type] = $scope.option_theme[property_type]
-            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme, instance_theme:theme})
+            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme})
           $scope.classes.push(klass)
 
       #call ajax and send the code to server
@@ -88,7 +88,7 @@ angular.module("dummy_ang_module",['ui.select2'])
             # create array for the theme
             theme = {}
             theme[property_type] = $scope.option_theme[property_type]
-            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme, instance_theme:theme})
+            klass.properties.push({"name":property_name, "type":property_type, "length":property_length, "theme":property_theme})
           $scope.classes.push(klass)
 #    $http.get(url,{params:{language:$scope.code_language,data:window.myCodeMirror.getValue()}}).success(successresponse)
     $http.get(url,{params:{language:$scope.code_language,data:$scope.raw_code,data_count:$scope.data_count_number}}).success(successresponse)
@@ -113,6 +113,8 @@ angular.module("dummy_ang_module",['ui.select2'])
         $scope.raw_code = rawcode_my_sql
       when "SQL"
         $scope.raw_code = rawcode_sql
+      when "Obj-C"
+        $scope.raw_code = rawcode_obj_c
       when "C++"
         $scope.raw_code = rawcode_c_plus
       when "C#"
@@ -132,16 +134,12 @@ angular.module("dummy_ang_module",['ui.select2'])
 
   #calling to tell that theme have changed
   $scope.change_theme = (property)->
-    #change the option theme, according to the type
-    property.instance_theme = {}
-    property.instance_theme[property.type] = $scope.option_theme[property.type]
-    #change the value to become the first value
     #watch the property, so if there any changes... it can be responsive
-
-    if (not property.instance_theme? && property.instance_theme[property.type].length > 0)
+    if ($scope.option_theme[property.type]? && $scope.option_theme[property.type].length > 0)
       property.theme = ""
       $timeout( ->
-        property.theme = property.instance_theme[property.type][0]
+        property.theme = $scope.option_theme[property.type][0]
+        console.log(property.theme)
       , 0
       )
 
@@ -164,7 +162,6 @@ angular.module("dummy_ang_module",['ui.select2'])
     property.name = ""
     property.length = ""
     property.theme = ""
-    property.instance_theme = ""
     the_class.properties.push(property)
 
   #remove field
@@ -208,7 +205,6 @@ angular.module("dummy_ang_module",['ui.select2'])
        string AlbumName;   \r\n
        int TrackCount;     \r\n
     };"
-
   rawcode_c =
     " typedef struct {          \r\n
       char ArtistName[], AlbumNamae[]     \r\n
@@ -216,9 +212,17 @@ angular.module("dummy_ang_module",['ui.select2'])
     } RectangleClass;"
 
   rawcode_obj_c =
-    "@interface Bar : NSObject {   \r\n
-        Foo *someFoo;              \r\n
-    }"
+    "@interface Location : NSManagedObject                               \r\n
+      @property (nonatomic, retain) NSString * locationAddress;          \r\n
+      @property (nonatomic, retain) NSString * locationCity;             \r\n
+      @property (nonatomic, retain) NSNumber * locationCoordinateLat;    \r\n
+      @property (nonatomic, retain) NSNumber * locationCoordinateLon;    \r\n
+      @property (nonatomic, retain) NSString * locationId;               \r\n
+      @property (nonatomic, retain) id locationPhones;                   \r\n
+      @property (nonatomic, retain) NSNumber * locationStatus;           \r\n
+      @property (nonatomic, retain) NSString * locationTitle;            \r\n
+    @end"
+
 
   rawcode_sql =
   "CREATE TABLE Persons            \r\n

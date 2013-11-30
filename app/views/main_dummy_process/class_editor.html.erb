@@ -23,9 +23,7 @@
               <select ui-select2="{containerCssClass:'optionType optionTheme',placeholder:'insert theme',minimumResultsForSearch:-1}"
                       class="optionType"
                       ng-model="property.theme">
-                <optgroup ng-repeat="(type, themes) in property.instance_theme" label={{type}}>
-                  <option ng-repeat="theme in themes">{{theme}}</option>
-                </optgroup>
+                <option ng-repeat="themes in option_theme[property.type]" label={{type}} value="{{themes}}">{{themes}}</option>
               </select>
           </span>
           <span ng-switch on="property.type" class="optionLength">
