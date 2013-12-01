@@ -1,7 +1,4 @@
 angular.module("dummy_ang_module",['ui.select2'])
-.config(["$routeProvider", ($routeProvider)->
-  $routeProvider.when()
-])
 .directive('datetimePicker', ->
     today = new Date();
     return result =
