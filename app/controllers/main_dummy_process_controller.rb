@@ -2,6 +2,7 @@ class MainDummyProcessController < ApplicationController
   include SQLParser
   include ObjCParser
   include CSharpParser
+  include JavaParser
   include DTO
   include DataGeneratorProcess
   include Const
@@ -86,6 +87,8 @@ class MainDummyProcessController < ApplicationController
         parser = SQL.new
       when "Obj-C"
         parser = ObjC.new
+      when "Java"
+        parser = Java.new
     end
     return parser
   end

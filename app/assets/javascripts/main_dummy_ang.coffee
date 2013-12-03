@@ -106,7 +106,6 @@ angular.module("dummy_ang_module",['ui.select2'])
   $scope.change_code_type = (code_type)->
     switch code_type
       when "C"
-#        window.myCodeMirror.setOption('mode','text/x-csrc')
         $scope.raw_code = rawcode_my_sql
       when "SQL"
         $scope.raw_code = rawcode_sql
@@ -119,11 +118,10 @@ angular.module("dummy_ang_module",['ui.select2'])
       when "Pascal"
         alert('put into Pascal mode')
       when "Java"
-        alert('put into Java mode')
+        $scope.raw_code = rawcode_java
       when "Ruby"
-        alert('put into Ruby mode')
+        $scope.raw_code = rawcode_c
       when "Python"
-#        window.myCodeMirror.setOption('mode','ruby')
         alert('put into Python mode')
       else
         alert('language error')
@@ -230,6 +228,17 @@ angular.module("dummy_ang_module",['ui.select2'])
       Address varchar(255),        \r\n
       City varchar(255)            \r\n
     ); "
+
+  rawcode_java =
+    "public Class exampleClass     \r\n
+    {                              \r\n
+      public string ArtistName;    \r\n
+      public string AlbumName;     \r\n
+      public int AlbumYear;        \r\n
+      public int TrackCount;       \r\n
+      public date ReleaseDate;     \r\n
+      public boolean onSale;       \r\n
+    }"
 
   rawcode_my_sql =
     "CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1), birth DATE, death DATE)"
